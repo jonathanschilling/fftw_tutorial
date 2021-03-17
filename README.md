@@ -34,11 +34,7 @@ void test_1d_c2c() {
     fftw_plan p = fftw_plan_dft_1d(n, in, fftw_out, dir, FFTW_ESTIMATE);
 
     // fill the input array with random data
-    for (int j = 0; j < n; ++j) {
-        real = rand() / ((double) RAND_MAX);
-        imag = rand() / ((double) RAND_MAX);
-        in[j] = real + I * imag;
-    }
+    fill_random_1d_cplx(n, in);
 
     // compute the reference output
     for (int k = 0; k < n; ++k) {
@@ -57,13 +53,7 @@ void test_1d_c2c() {
 
     // compare reference output with FFTW output
     double eps = 1e-12;
-    int status = compare_1d_cplx(n, ref_out, fftw_out, eps);
-
-    if (status == 0) {
-        printf("=> all ok\n");
-    } else {
-        printf("=> errors\n");
-    }
+    compare_1d_cplx(n, ref_out, fftw_out, eps);
 
     fftw_destroy_plan(p);
     fftw_free(in);
