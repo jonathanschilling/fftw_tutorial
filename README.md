@@ -4,27 +4,6 @@ This is a basic C project (Makefile, but also for the Eclipse IDE) I use for exp
 
 One- and two-dimensional DFTs of random data are computed using both FFTW and straight-forward naive algorithms
 in order to illustrate explicitly what kind of symmetries and scaling properties FFTW implies in its inputs and outputs.
- 
-## Allocation of arrays
-Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
-```C
-int n = 32;
-int nOut = n/2+1;
-double *in = fftw_alloc_real(n);
-fftw_complex *out = fftw_alloc_complex(nOut);
-```
-where `N` is the real-space size of the DFT and `outN` is the number of Fourier coefficients resulting from a `r2c` DFT.
-The corresponding "raw" allocation code would look like this:
-```C
-double *in = (double*) fftw_malloc(sizeof(double) * n);
-fftw_complex *out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * nOut);
-```
-Note that above code is equivalent to the standard C way of allocating memory using `malloc`:
-```C
-double *in = (double*) malloc(sizeof(double) * n);
-fftw_complex *out = (fftw_complex*) malloc(sizeof(fftw_complex) * nOut);
-```
-except that the FFTW routines ensure proper memory alignment for exploiting SIMD instructions of modern CPUs.
 
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
@@ -97,6 +76,27 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
+
+## Allocation of arrays
+Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
+```C
+int n = 32;
+int nOut = n/2+1;
+double *in = fftw_alloc_real(n);
+fftw_complex *out = fftw_alloc_complex(nOut);
+```
+where `N` is the real-space size of the DFT and `outN` is the number of Fourier coefficients resulting from a `r2c` DFT.
+The corresponding "raw" allocation code would look like this:
+```C
+double *in = (double*) fftw_malloc(sizeof(double) * n);
+fftw_complex *out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * nOut);
+```
+Note that above code is equivalent to the standard C way of allocating memory using `malloc`:
+```C
+double *in = (double*) malloc(sizeof(double) * n);
+fftw_complex *out = (fftw_complex*) malloc(sizeof(fftw_complex) * nOut);
+```
+except that the FFTW routines ensure proper memory alignment for exploiting SIMD instructions of modern CPUs.
 
 ## Utility functions
 In order to keep the examples short, a separate header file `util.h` is provided.
