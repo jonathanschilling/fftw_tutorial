@@ -7,7 +7,6 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
 
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
-The results are compared against a naive implementation, which is (hopefully) straightforward to understand.
 
 ### 1D complex-to-complex
 The first example is basically a self-contained version of the [corresponding example in the FFTW manual](http://fftw.org/fftw3_doc/Complex-One_002dDimensional-DFTs.html#Complex-One_002dDimensional-DFTs). It is available in the file [`test_1d_c2c.c`](https://github.com/jonathanschilling/fftw_tutorial/blob/master/src/test_1d_c2c.c).
