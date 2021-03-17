@@ -92,7 +92,7 @@ In order to keep the examples short, a separate header file `util.h` is provided
 It contains methods to operate on one- and two-dimensional arrays (the latter stored in row-major order)
 of real (`double`) and complex (`fftw_complex`) numbers.
 The following operations are supported:
- * fill with random numbers between 0 and 1
- * element-wise check for approximate equality
+ * fill with random numbers between 0 and 1: e.g. `fill_random_1d_cplx`
+ * element-wise check for approximate equality: e.g. `compare_1d_real`
  * write into a text file.
 
