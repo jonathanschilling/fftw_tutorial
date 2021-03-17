@@ -1,6 +1,6 @@
 # FFTW Tutorial
 
-This is a basic C project for the Eclipse IDE I use for exploring FFTW.
+This is a basic C project (Makefile, but also for the Eclipse IDE) I use for exploring FFTW.
 
 One- and two-dimensional DFTs of random data are computed using both FFTW and straight-forward naive algorithms
 in order to illustrate explicitly what kind of symmetries and scaling properties FFTW implies in its inputs and outputs.
