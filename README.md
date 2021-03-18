@@ -129,7 +129,8 @@ and thus also the last element of the complex-valued Fourier-space array is pure
 
 The DFT is formulated to include all elements of the Fourier-space array.
 For odd `n`, all components of the Fourier-space array except the DC element at *k*=0 have to be weighted with a factor of 2.
-For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2.
+For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2. The elements that need to be weighted by a factor of 2 are highlighted by solid blue lines in above illustration.
+The redundant elements that are not explicitly needed are indicated by dashed blue lines.
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
