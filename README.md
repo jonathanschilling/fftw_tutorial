@@ -109,11 +109,15 @@ The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 In case either the input array or the output array are constrained to be purely real, the corresponding complex-valued output or input array
 features Hermitian symmetry:
 
-![Hermitian symmetry](img/hermitian.png)
+![Hermitian symmetry](eqn/hermitian.png)
 
+The figure below illustrates the structure of the complex-valued Fourier space arrays
+occuring in the DFT for both even-valued (`n=6`) and odd-valued (`n=7`) sizes of the DFT.
 
 ![array structure](img/array_structures.png)
 
+The size required to contain all information required for the transform from or to a real-valued array
+is contained in the first `n/2+1` entries of the complex array (indicated by the red bars in above figure).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
