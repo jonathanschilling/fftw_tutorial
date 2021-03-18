@@ -132,9 +132,13 @@ For both even and odd values of `n`, Hermitian symmetry implies *Y_0* = *Y\*_0* 
 In the case of even `n`, we can intuitively observe that *Y_m* = *Y\*_-m* where *m*=`n/2` (the element at the Nyquist frequency,
 and thus also the last element of the complex-valued Fourier-space array) is also purely real.
 
-The DFT is formulated to include all elements of the Fourier-space array.
+The DFT formulation includes all elements of the Fourier-space array from 0 to `n-1`.
+Now that only parts of these coefficients are taken into account, they have to be weighted appropriately
+to recover the results that would have been obtained by using the full array without taking advantage of its symmetry properties.
 For odd `n`, all components of the Fourier-space array except the DC element at *k*=0 have to be weighted with a factor of 2.
-For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2. The elements that need to be weighted by a factor of 2 are highlighted by solid blue lines in above illustration.
+For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2`
+have to be weighted with a factor of 2.
+The elements that need to be weighted by a factor of 2 are highlighted by solid blue lines in above illustration.
 The redundant elements that are not explicitly needed are indicated by dashed blue lines.
 
 The transformation from complex Fourier space to real-valued real space is demonstrated in [`src/test_1d_c2r.c`](src/test_1d_c2r.c).
