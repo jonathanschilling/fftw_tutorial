@@ -107,9 +107,14 @@ The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 
 ### 1D real-to-complex and complex-to-real
 In case either the input array or the output array are constrained to be purely real, the corresponding complex-valued output or input array
-features Hermitian symmetry:
+features Hermitian symmetry (where the `n`-periodicity has been included as well):
 
-![Hermitian symmetry](eqn/hermitian_sum.png)
+![Hermitian symmetry](eqn/hermitian.png)
+
+For the case of a backward DFT of real-valued *X_j* and complex-valued *Y_k* with Hermitian symmetry,
+the Fourier sum is written out excplicitly as follows:
+
+![Hermitian symmetry in Fourier sum](eqn/hermitian_sum.png)
 
 The figure below illustrates the structure of the complex-valued Fourier space arrays
 occuring in the DFT for both even-valued (`n=6`) and odd-valued (`n=7`) sizes of the DFT.
@@ -118,6 +123,13 @@ occuring in the DFT for both even-valued (`n=6`) and odd-valued (`n=7`) sizes of
 
 The size required to contain all information required for the transform from or to a real-valued array
 is contained in the first `n/2+1` (division by 2 rounded down) entries of the complex array, indicated by the red bars in above figure.
+For both even and odd values of `n`, Hermitian symmetry implies *Y_0* = *Y\*_0* and thus *Y_0* is always real.
+In the case of even `n`, we can intuitively observe that furthermore *Y_m* = *Y\*_-m* where *m*=`n/2+1` (the element at the Nyquist frequency),
+and thus also the last element of the complex-valued Fourier-space array is purely real.
+
+The DFT is formulated to include all elements of the Fourier-space array.
+For odd `n`, all components of the Fourier-space array except the DC element at *k*=0 have to be weighted with a factor of 2.
+For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2.
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
