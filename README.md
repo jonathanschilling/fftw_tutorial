@@ -201,6 +201,7 @@ for (int k = 0; k < nCplx; ++k) {
 Note that in this case, only the non-redundant part of the complex-values Fourier coefficients need to be computed
 from a real-valued input. The separate handling of the DC component is not strictly necessary, since `cos(0)=1` and `sin(0)=0`
 and thus the DC component would get no imaginary contribution.
+The full example is available in the file [`src/test_1d_r2c.c`](src/test_1d_r2c.c).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
