@@ -180,6 +180,28 @@ The (purely real) Nyquist element at `n/2` is added separately if `n` is even.
 All other elements are weighted by a factor of 2 and only the real part
 of the complex product of input Fourier coefficient and complex-valued basis function is actually computed.
 
+The reverse transform from real space to Fourier space is comparably simple to implement:
+
+```C
+for (int k = 0; k < nCplx; ++k) {
+
+    // DC component is always real
+    ref_out[k] = in[0];
+
+    for (int j = 1; j < n; ++j) {
+        phi = -2.0 * M_PI * j * k / ((double) n);
+
+        real = in[j] * cos(phi);
+        imag = in[j] * sin(phi);
+        ref_out[k] += real + I * imag;
+    }
+}
+```
+
+Note that in this case, only the non-redundant part of the complex-values Fourier coefficients need to be computed
+from a real-valued input. The separate handling of the DC component is not strictly necessary, since `cos(0)=1` and `sin(0)=0`
+and thus the DC component would get no imaginary contribution.
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
