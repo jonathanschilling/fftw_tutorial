@@ -103,9 +103,14 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
+
 The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 
 ### 1D real-to-complex and complex-to-real
+The next two examples deal with DFTs of purely real data (`r2c`) and DFTs which *produce* purely real data (`c2r`).
+These are covered in the [official FFTW tutorial](http://fftw.org/fftw3_doc/One_002dDimensional-DFTs-of-Real-Data.html#One_002dDimensional-DFTs-of-Real-Data)
+as well as in the [FFTW reference manual](http://fftw.org/fftw3_doc/The-1d-Real_002ddata-DFT.html#The-1d-Real_002ddata-DFT).
+
 In case either the input array or the output array are constrained to be purely real, the corresponding complex-valued output or input array
 features Hermitian symmetry (where the `n`-periodicity has been included as well):
 
@@ -131,6 +136,43 @@ The DFT is formulated to include all elements of the Fourier-space array.
 For odd `n`, all components of the Fourier-space array except the DC element at *k*=0 have to be weighted with a factor of 2.
 For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2. The elements that need to be weighted by a factor of 2 are highlighted by solid blue lines in above illustration.
 The redundant elements that are not explicitly needed are indicated by dashed blue lines.
+
+The transformation from complex Fourier space to real-valued real space is demonstrated in [`src/test_1d_c2r.c`](src/test_1d_c2r.c).
+The relevant portion of the source code is here:
+
+```C
+int nCplx = n / 2 + 1;
+for (int k = 0; k < n; ++k) {
+
+    // start with DC component, which is purely real due to Hermitian symmetry
+    ref_out[k] = creal(in[0]);
+
+    int loopEnd = nCplx;
+
+    // special case for even n
+    if (n % 2 == 0) {
+        // Nyquist element is purely real as well
+        phi = 2.0 * M_PI * (nCplx - 1) * k / ((double) n);
+        ref_out[k] += creal(in[nCplx - 1]) * cos(phi);
+
+        loopEnd = nCplx-1;
+    }
+
+    // middle elements are handled the same for even and odd n
+    for (int j = 1; j < loopEnd; ++j) {
+        phi = 2.0 * M_PI * j * k / ((double) n);
+
+        real = creal(in[j]) * cos(phi) - cimag(in[j]) * sin(phi);
+        ref_out[k] += 2.0 * real;
+    }
+}
+```
+
+Note that the integer division used to compute `nCplx` (correctly) rounds down.
+The rest is a relatively straight-forward implementation of above verbose algorithm.
+The DC component is always taken to be real.
+Depending on whether `n` is even or odd, the number of elements to take into account with both real and imaginary component (`loopEnd`) is adjusted.
+The (purely real) Nyquist element at `n/2` is added separately if `n` is even.
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
