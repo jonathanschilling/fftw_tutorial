@@ -216,6 +216,13 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ![REDFT11](img/redft11.png)
 
+![RODFT00](img/rodft00.png)
+
+![RODFT01](img/rodft01.png)
+
+![RODFT10](img/rodft10.png)
+
+![RODFT11](img/rodft11.png)
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
