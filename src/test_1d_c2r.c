@@ -29,27 +29,23 @@ void test_1d_c2r(int n) {
         // start with DC component, which is purely real due to Hermitian symmetry
         ref_out[k] = creal(in[0]);
 
+        int loopEnd = nCplx;
+
+        // special case for even n
         if (n % 2 == 0) {
-            // even n
-            for (int j = 1; j < nCplx - 1; ++j) {
-                phi = 2.0 * M_PI * j * k / ((double) n);
-
-                real = creal(in[j]) * cos(phi) - cimag(in[j]) * sin(phi);
-                ref_out[k] += 2.0 * real;
-            }
-
             // Nyquist element is purely real as well
             phi = 2.0 * M_PI * (nCplx - 1) * k / ((double) n);
             ref_out[k] += creal(in[nCplx - 1]) * cos(phi);
 
-        } else {
-            // odd n
-            for (int j = 1; j < nCplx; ++j) {
-                phi = 2.0 * M_PI * j * k / ((double) n);
+            loopEnd = nCplx-1;
+        }
 
-                real = creal(in[j]) * cos(phi) - cimag(in[j]) * sin(phi);
-                ref_out[k] += 2.0 * real;
-            }
+        // middle elements are handled the same for even and odd n
+        for (int j = 1; j < loopEnd; ++j) {
+            phi = 2.0 * M_PI * j * k / ((double) n);
+
+            real = creal(in[j]) * cos(phi) - cimag(in[j]) * sin(phi);
+            ref_out[k] += 2.0 * real;
         }
     }
 
