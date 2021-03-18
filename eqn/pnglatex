@@ -10,7 +10,7 @@ pdflatex $1
 
 # pdf to png
 output_png=`echo $1 | sed -e "s/tex/png/g"`
-convert -verbose -density 300 -trim ${output} -quality 100 -sharpen 0x1.0 ${output_png}
+convert -verbose -density 150 -trim ${output} -quality 100 -sharpen 0x1.0 ${output_png}
 
 # clean up the mess
 rm `echo $output | sed -r 's/pdf$//'`{aux,log,pdf}
