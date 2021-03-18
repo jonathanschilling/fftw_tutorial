@@ -126,7 +126,7 @@ fftw_complex *out = (fftw_complex*) malloc(sizeof(fftw_complex) * nOut);
 except that the FFTW routines ensure proper memory alignment for exploiting SIMD instructions of modern CPUs.
 
 ## Utility functions
-In order to keep the examples short, a separate header file `util.h` is provided.
+In order to keep the examples short, a separate header file [`src/util.h`](src/util.h) is provided.
 It contains methods to operate on one- and two-dimensional arrays (the latter stored in row-major order)
 of real (`double`) and complex (`fftw_complex`) numbers.
 The following operations are supported:
