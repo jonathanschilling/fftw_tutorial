@@ -1,0 +1,25 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{units}
+%\usepackage{lmodern}
+%\usepackage{arevtext,arevmath}
+\usepackage[left=-2mm,top=0mm,
+            right=0cm,bottom=0cm,
+            nohead,nofoot,
+            paperwidth = 160mm, 
+            paperheight = 25mm]{geometry}
+\pagestyle{empty}
+
+\usepackage[frak=esstix]{mathalfa}
+\def\realpart{\mathfrak{Re}}
+\def\imagpart{\mathfrak{Im}}
+
+\begin{document}
+\begin{align*}
+~& \left( \realpart(X_j) + i \, \imagpart(X_j) \right) \cdot \left( \cos(\varphi) + i \sin(\varphi) \right) \\
+=& \phantom{+ i}~ \left( \realpart(X_j) \cos(\varphi) - \imagpart(X_j) \sin(\varphi) \right) \\
+~&          + i   \left( \realpart(X_j) \sin(\varphi) + \imagpart(X_j) \cos(\varphi) \right)
+\end{align*}
+\end{document}
+
