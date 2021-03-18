@@ -2,14 +2,35 @@
 
 This is a basic C project (Makefile, but also for the Eclipse IDE) I use for exploring FFTW.
 
-One- and two-dimensional DFTs of random data are computed using both FFTW and straight-forward naive algorithms
+One- and two-dimensional discrete Fourier transforms (DFTs) of random data are computed using both FFTW and straight-forward naive algorithms
 in order to illustrate explicitly what kind of symmetries and scaling properties FFTW implies in its inputs and outputs.
 
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
 
 ### 1D complex-to-complex
-The first example is basically a self-contained version of the [corresponding example in the FFTW manual](http://fftw.org/fftw3_doc/Complex-One_002dDimensional-DFTs.html#Complex-One_002dDimensional-DFTs). It is available in the file [`src/test_1d_c2c.c`](https://github.com/jonathanschilling/fftw_tutorial/blob/master/src/test_1d_c2c.c).
+The first example is basically a self-contained version of the [corresponding example in the FFTW manual](http://fftw.org/fftw3_doc/Complex-One_002dDimensional-DFTs.html#Complex-One_002dDimensional-DFTs). 
+
+We want to compute the complex-valued one-dimensional DFT here, which is specified in [section 4.8.1 of the FFTW reference manual](http://fftw.org/fftw3_doc/The-1d-Discrete-Fourier-Transform-_0028DFT_0029.html#The-1d-Discrete-Fourier-Transform-_0028DFT_0029).
+
+![complex-valued DFT](eqn/complex_dft.png)
+
+The sign in the exponent of the basis function specifies the direction in which the Fourier transform is to be computed:
+`-1` indicates a "forward" transform and `+1` indicates a backward transform. These values are available via the `FFTW_FORWARD` and `FFTW_BACKWARD` preprocessor macros.
+
+In order to compute the DFT, complex-valued products of the following form need to be evaluated:
+
+![complex-valued DFT](eqn/complex_dft.png)
+
+Eulers formula comes in handy now (where *i* is the imaginary unit):
+
+![Eulers formula](eqn/euler.png)
+
+The angle argument `phi` can be identified in above formulas for the DFT:
+
+![phi in DFT](eqn/phi.png)
+
+
 
 ```C
 #include <stdio.h>
@@ -65,12 +86,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
-
-We want to compute the complex-valued one-dimensional DFT here, which is specified in [section 4.8.1 of the FFTW reference manual](http://fftw.org/fftw3_doc/The-1d-Discrete-Fourier-Transform-_0028DFT_0029.html#The-1d-Discrete-Fourier-Transform-_0028DFT_0029):
-![complex-valued DFT](eqn/complex_dft.png)
-
-The sign in the exponent of the basis function specifies the direction in which the Fourier transform is to be computed:
-`-1` indicates a "forward" transform and `+1` indicates a backward transform. These values are available via the `FFTW_FORWARD` and `FFTW_BACKWARD` preprocessor macros.
+The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
