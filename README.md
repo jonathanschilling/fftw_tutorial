@@ -224,6 +224,12 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ![RODFT11](img/rodft11.png)
 
+TODO:
+ * *abcd* ... etc as in manual for REDFT00 and REDFT10
+ * x axis: element indices
+ * DCT-I, ... notation into header
+ * extend to <0 for symmetry? maybe plot from -pi to pi...
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
