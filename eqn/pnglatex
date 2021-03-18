@@ -1,0 +1,16 @@
+#!/bin/bash
+# compile tex file to pdf using pdflatex and convert pdf to png
+# for usage in a presentation...
+
+# output file of pdflatex
+output=`echo $1 | sed -e "s/tex/pdf/g"`
+
+# latex to pdf
+pdflatex $1
+
+# pdf to png
+output_png=`echo $1 | sed -e "s/tex/png/g"`
+convert -verbose -density 300 -trim ${output} -quality 100 -sharpen 0x1.0 ${output_png}
+
+# clean up the mess
+rm `echo $output | sed -r 's/pdf$//'`{aux,log,pdf}
