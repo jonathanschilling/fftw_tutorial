@@ -20,9 +20,9 @@ The sign in the exponent of the basis function specifies the direction in which 
 
 In order to compute the DFT, complex-valued products of the following form need to be evaluated:
 
-![complex-valued DFT](eqn/complex_dft.png)
+![complex product](eqn/c2c_product.png)
 
-Eulers formula comes in handy now (where *i* is the imaginary unit):
+Eulers formula comes in handy now (where *i* is the imaginary unit with *i*^2=-1):
 
 ![Eulers formula](eqn/euler.png)
 
@@ -30,7 +30,9 @@ The angle argument `phi` can be identified in above formulas for the DFT:
 
 ![phi in DFT](eqn/phi.png)
 
+Now the complex-valued product can be computed using only real-valued variables:
 
+![complex product using real numbers](eqn/c2c_product_real.png)
 
 ```C
 #include <stdio.h>
