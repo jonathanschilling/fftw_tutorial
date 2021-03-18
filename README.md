@@ -107,7 +107,7 @@ The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 
 ### 1D real-to-complex and complex-to-real
 In case either the input array or the output array are constrained to be purely real, the corresponding complex-valued output or input array
-features Hermitian symmetry:
+features Hermitian symmetry (the `n`-periodicity being written down here as well):
 
 ![Hermitian symmetry](eqn/hermitian.png)
 
