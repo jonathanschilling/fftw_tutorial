@@ -116,7 +116,7 @@ features Hermitian symmetry (where the `n`-periodicity has been included as well
 
 ![Hermitian symmetry](eqn/hermitian.png)
 
-For the case of a backward DFT of real-valued *X_j* and complex-valued *Y_k* with Hermitian symmetry,
+For the case of a DFT of real-valued *X_j* and complex-valued *Y_k* with Hermitian symmetry,
 the Fourier sum is written out excplicitly as follows:
 
 ![Hermitian symmetry in Fourier sum](eqn/hermitian_sum.png)
