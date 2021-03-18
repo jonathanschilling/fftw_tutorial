@@ -32,7 +32,7 @@ void compare_1d_real(int n, double *ref, double *arr, double eps) {
 
         delta = arr[i] - ref[i];
 
-        if (delta < eps) {
+        if (fabs(delta) < eps) {
             printf("  real ok (delta = %g)\n", delta);
         } else {
             printf("  real: expected %g, got %g (delta = %g)\n", ref[i], arr[i],
@@ -58,7 +58,7 @@ void compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
         delta_real = creal(arr[i]) - creal(ref[i]);
         delta_imag = cimag(arr[i]) - cimag(ref[i]);
 
-        if (delta_real < eps) {
+        if (fabs(delta_real) < eps) {
             printf("  real ok (delta = %g)\n", delta_real);
         } else {
             printf("  real: expected %g, got %g (delta = %g)\n", creal(ref[i]),
@@ -66,7 +66,7 @@ void compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
             status = 1;
         }
 
-        if (delta_imag < eps) {
+        if (fabs(delta_imag) < eps) {
             printf("  imag ok (delta = %g)\n", delta_imag);
         } else {
             printf("  imag: expected %g, got %g (delta = %g)\n", cimag(ref[i]),
