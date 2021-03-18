@@ -208,6 +208,15 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ### 1D real-to-real
 
+![REDFT00](img/redft00.png)
+
+![REDFT01](img/redft01.png)
+
+![REDFT10](img/redft10.png)
+
+![REDFT11](img/redft11.png)
+
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
