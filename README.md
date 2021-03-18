@@ -203,6 +203,9 @@ from a real-valued input. The separate handling of the DC component is not stric
 and thus the DC component would get no imaginary contribution.
 The full example is available in the file [`src/test_1d_r2c.c`](src/test_1d_r2c.c).
 
+It becomes evident in above examples that the sign of a `c2r` DFT is always `FFTW_BACKWARD` and 
+the sign of a `r2c` DFT is always `FFTW_FORWARD`.
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
