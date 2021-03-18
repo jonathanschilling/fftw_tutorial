@@ -121,12 +121,15 @@ occuring in the DFT for both even-valued (`n=6`) and odd-valued (`n=7`) sizes of
 
 ![array structure](img/array_structures.png)
 
-In both cases, Hermitian symmetry implies *Y_0* = *Y\*_0* and thus *Y_0* is always real.
-In the case of even `n`, we can intuitively observe that also *Y_m* = *Y\*_-m* where `m=n/2+1` (the element at the Nyquist frequency),
-and thus also the last element of the Fourier space array is real-valued.
 The size required to contain all information required for the transform from or to a real-valued array
 is contained in the first `n/2+1` (division by 2 rounded down) entries of the complex array, indicated by the red bars in above figure.
+For both even and odd values of `n`, Hermitian symmetry implies *Y_0* = *Y\*_0* and thus *Y_0* is always real.
+In the case of even `n`, we can intuitively observe that furthermore *Y_m* = *Y\*_-m* where *m*=`n/2+1` (the element at the Nyquist frequency),
+and thus also the last element of the complex-valued Fourier-space array is purely real.
 
+The DFT is formulated to include all elements of the Fourier-space array.
+For odd `n`, all components of the Fourier-space array except the DC element at *k*=0 have to be weighted with a factor of 2.
+For even `n`, all components of the Fourier-space array except the DC element at *k*=0 and the Nyquist element at *k*=`n/2` have to be weighted with a factor of 2.
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
