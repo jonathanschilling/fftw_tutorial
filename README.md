@@ -106,6 +106,11 @@ int main(int argc, char** argv) {
 The code is available in the file [`src/test_1d_c2c.c`](src/test_1d_c2c.c).
 
 ### 1D real-to-complex and complex-to-real
+In case either the input array or the output array are constrained to be purely real, the corresponding complex-valued output or input array
+features Hermitian symmetry:
+
+![Hermitian symmetry](img/hermitian.png)
+
 
 ![array structure](img/array_structures.png)
 
