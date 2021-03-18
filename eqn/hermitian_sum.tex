@@ -1,0 +1,21 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{units}
+%\usepackage{lmodern}
+%\usepackage{arevtext,arevmath}
+\usepackage[left=-2mm,top=0mm,
+            right=0cm,bottom=0cm,
+            nohead,nofoot,
+            paperwidth = 120mm, 
+            paperheight = 50mm]{geometry}
+\pagestyle{empty}
+
+\begin{document}
+\begin{align*}
+Y_{-k} =& \sum\limits_{j=0}^{n-1} X_j \Bigl( \underbrace{\cos(-2 \pi j k / n)}_{=\cos(2 \pi j k / n)} + i \underbrace{\sin(-2 \pi j k / n)}_{=-\sin(2 \pi j k / n)} \Bigr) \\
+       =& \sum\limits_{j=0}^{n-1} X_j \Bigl( \cos(2 \pi j k / n) - i \sin(2 \pi j k / n) \Bigr) \\
+       =& Y^{*}_k
+\end{align*}
+\end{document}
+
