@@ -177,6 +177,8 @@ The rest is a relatively straight-forward implementation of above verbose algori
 The DC component is always taken to be real.
 Depending on whether `n` is even or odd, the number of elements to take into account with both real and imaginary component (`loopEnd`) is adjusted.
 The (purely real) Nyquist element at `n/2` is added separately if `n` is even.
+All other elements are weighted by a factor of 2 and only the real part
+of the complex product of input Fourier coefficient and complex-valued basis function is actually computed.
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
