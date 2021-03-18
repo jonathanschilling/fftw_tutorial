@@ -67,6 +67,7 @@ int main(int argc, char** argv) {
 ```
 
 We want to compute the complex-valued one-dimensional DFT here, which is specified in the section 4.8.1 of the FFTW reference manual:
+
 ![complex-valued DFT](eqn/complex_dft.png)
 
 ## Allocation of arrays
