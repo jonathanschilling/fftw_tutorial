@@ -117,7 +117,8 @@ occuring in the DFT for both even-valued (`n=6`) and odd-valued (`n=7`) sizes of
 ![array structure](img/array_structures.png)
 
 The size required to contain all information required for the transform from or to a real-valued array
-is contained in the first `n/2+1` entries of the complex array (indicated by the red bars in above figure).
+is contained in the first `n/2+1` (division by 2 rounded down) entries of the complex array, indicated by the red bars in above figure.
+
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
