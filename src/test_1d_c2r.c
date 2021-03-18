@@ -64,6 +64,6 @@ void test_1d_c2r(int n) {
 
 int main(int argc, char** argv) {
     test_1d_c2r(32);
-    test_1d_c2r(33);
+//    test_1d_c2r(33);
     return 0;
 }
