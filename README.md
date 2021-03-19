@@ -210,17 +210,17 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ![REDFT00](img/redft00.png)
 
-![REDFT01](img/redft01.png)
-
 ![REDFT10](img/redft10.png)
+
+![REDFT01](img/redft01.png)
 
 ![REDFT11](img/redft11.png)
 
 ![RODFT00](img/rodft00.png)
 
-![RODFT01](img/rodft01.png)
-
 ![RODFT10](img/rodft10.png)
+
+![RODFT01](img/rodft01.png)
 
 ![RODFT11](img/rodft11.png)
 
