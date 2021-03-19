@@ -208,19 +208,51 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ### 1D real-to-real
 
+#### REDFT00 (DCT-I)
+
+![REDFT00 formula](eqn/redft00.png)
+
 ![REDFT00](img/redft00.png)
+
+#### REDFT10 (DCT-II)
+
+![REDFT10 formula](eqn/redft10.png)
 
 ![REDFT10](img/redft10.png)
 
+#### REDFT01 (DCT-III)
+
+![REDFT01 formula](eqn/redft01.png)
+
 ![REDFT01](img/redft01.png)
+
+#### REDFT11 (DCT-IV)
+
+![REDFT11 formula](eqn/redft11.png)
 
 ![REDFT11](img/redft11.png)
 
+#### RODFT00 (DST-I)
+
+![RODFT00 formula](eqn/rodft00.png)
+
 ![RODFT00](img/rodft00.png)
+
+#### RODFT10 (DST-II)
+
+![RODFT10 formula](eqn/rodft10.png)
 
 ![RODFT10](img/rodft10.png)
 
+#### RODFT01 (DST-III)
+
+![RODFT01 formula](eqn/rodft01.png)
+
 ![RODFT01](img/rodft01.png)
+
+#### RODFT11 (DST-IV)
+
+![RODFT11 formula](eqn/rodft11.png)
 
 ![RODFT11](img/rodft11.png)
 
