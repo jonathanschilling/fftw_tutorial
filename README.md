@@ -243,7 +243,8 @@ The actual array size given to FFTW is denoted by `n`.
 
 ![REDFT11](img/redft11.png)
 
-For the DCTs, also consider https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg
+For the DCTs, also consider https://en.wikipedia.org/wiki/Discrete_cosine_transform#Formal_definition
+and in particular https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg .
 
 #### RODFT00 (DST-I)
 
@@ -276,6 +277,9 @@ For the DCTs, also consider https://upload.wikimedia.org/wikipedia/commons/a/ae/
 ![RODFT11 formula](eqn/rodft11.png)
 
 ![RODFT11](img/rodft11.png)
+
+For the DSTs, consider also https://en.wikipedia.org/wiki/Discrete_sine_transform#Definition
+and in particular https://upload.wikimedia.org/wikipedia/commons/3/31/DST-symmetries.svg .
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
