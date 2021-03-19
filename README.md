@@ -208,7 +208,12 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ### 1D real-to-real
 
+The logical size of the corresponding DFT is denoted as *N*.
+The actual array size given to FFTW is denoted by `n`.
+
 #### REDFT00 (DCT-I)
+
+*N* = 2(`n`-1) => `n` = *N*/2+1
 
 ![REDFT00 formula](eqn/redft00.png)
 
@@ -216,11 +221,15 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 #### REDFT10 (DCT-II)
 
+*N* = 2`n` => `n` = *N*/2
+
 ![REDFT10 formula](eqn/redft10.png)
 
 ![REDFT10](img/redft10.png)
 
 #### REDFT01 (DCT-III)
+
+*N* = 2`n` => `n` = *N*/2
 
 ![REDFT01 formula](eqn/redft01.png)
 
@@ -228,11 +237,15 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 #### REDFT11 (DCT-IV)
 
+*N* = 2`n` => `n` = *N*/2
+
 ![REDFT11 formula](eqn/redft11.png)
 
 ![REDFT11](img/redft11.png)
 
 #### RODFT00 (DST-I)
+
+*N* = 2(`n`+1) => `n` = *N*/2-1
 
 ![RODFT00 formula](eqn/rodft00.png)
 
@@ -240,17 +253,23 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 #### RODFT10 (DST-II)
 
+*N* = 2`n` => `n` = *N*/2
+
 ![RODFT10 formula](eqn/rodft10.png)
 
 ![RODFT10](img/rodft10.png)
 
 #### RODFT01 (DST-III)
 
+*N* = 2`n` => `n` = *N*/2
+
 ![RODFT01 formula](eqn/rodft01.png)
 
 ![RODFT01](img/rodft01.png)
 
 #### RODFT11 (DST-IV)
+
+*N* = 2`n` => `n` = *N*/2
 
 ![RODFT11 formula](eqn/rodft11.png)
 
