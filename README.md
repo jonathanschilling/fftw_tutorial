@@ -243,6 +243,8 @@ The actual array size given to FFTW is denoted by `n`.
 
 ![REDFT11](img/redft11.png)
 
+For the DCTs, also consider https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg
+
 #### RODFT00 (DST-I)
 
 *N* = 2(`n`+1) => `n` = *N*/2-1
