@@ -273,6 +273,11 @@ which is logically equivalent to a size-8 DFT with real-valued input data *abcde
 
 In order to demonstrate the use of this method,
 the logically equivalent DFT input is filled appropriately and its output is checked against `REDFT00`.
+In the following code, `in` is the input array (size `n`) given to `REDFT00`
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a generic 1D DFT.
+Similarly, `out` is the output array (size `n`) from `REDFT00`
+and `out_logical` is the output array (size *N*) from a generic 1D DFT.
+
 Here is how the symmetric input is generated:
 
 ```C
