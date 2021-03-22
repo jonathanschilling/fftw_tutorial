@@ -271,6 +271,22 @@ The input array is assumed to have even symmetry around *j=0* and even symmetry 
 In above figure, the lowercase letters *a* to *e* refer to the input data *abcde* for the size-5 REDFT00,
 which is logically equivalent to a size-8 DFT with real-valued input data *abcdedcb*.
 
+In order to demonstrate the use of this method,
+the logically equivalent DFT input is filled appropriately and its output is checked against `REDFT00`.
+Here is how the symmetric input is generated:
+
+```C
+// the first half of the array is identical
+for (int i=0; i<n; ++i) {
+    in_logical[i] = in[i];
+}
+
+// second half is filled according to even symmetry around n-1
+for (int i=0; i<n-1; ++i) {
+    in_logical[n+i] = in[n-2-i];
+}
+```
+
 #### REDFT10 (DCT-II)
 
 In case of the real-valued even-parity DFT with shifted input data (REDFT10),
