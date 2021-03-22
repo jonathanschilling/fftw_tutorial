@@ -227,6 +227,8 @@ random Fourier coefficients have been sampled and transformed back to real-space
 This allows to 'evaluate' the input data also in the samples given in the (small) input arrays.
 In these plots, red dashed vertical lines indicate even symmetry (*f(x)=f(-x)*) about the indicated position
 and blue dashed vertical lines indicate odd symmetry (*f(x)=-f(-x)*) about the indicated position.
+The grey-shaded area in the background indicated the range of samples that are included in the input array.
+The x axis labels denote the indices in the actual input array given to FFTW (only valid within the range of the grey boxes).
 
 The nomenclature works as follows:
 The first letter is **R** to indicate real-valued data.
