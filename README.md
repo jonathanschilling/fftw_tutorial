@@ -219,12 +219,12 @@ The actual array size given to FFTW is denoted by `n`.
 For the DCT/DST types implemented in FFTW, *N* is always even.
 Note that this does not pose any restrictions on the input array sizes `n`.
 One can think of the logical DFT input array as one that FFTW 'sees' internally and computes a regular DFT of.
-The resulting output array is purely real and features the named symmetry properties, since it was 'constructed'
-from the given input array to have the desired symmetry properties.
+The resulting output array is purely real and features the named symmetry properties,
+since the logical input array was 'constructed' from the given input array to have the desired symmetry properties.
 
-In below example plots used to illustrate the symmetry properties,
-random Fourier coefficients have been sampled and transformed back to real-space using the appropriate inverse transforms.
-This allows to 'evaluate' the input data also in between samples present in the (small) input arrays.
+In below example plots used to illustrate these symmetry properties/assumptions,
+random Fourier coefficients have been sampled and transformed back to real-space using the named inverse transforms.
+This allows to 'evaluate' the input data also in the samples given in the (small) input arrays.
 In these plots, red dashed vertical lines indicate even symmetry (*f(x)=f(-x)*) about the indicated position
 and blue dashed vertical lines indicate odd symmetry (*f(x)=-f(-x)*) about the indicated position.
 
@@ -232,8 +232,8 @@ The nomenclature works as follows:
 The first letter is **R** to indicate real-valued data.
 The second letter distinguished between **E** for even-parity data and **O** for odd-parity data.
 The following **DFT** is for discrete Fourier transform (who guessed...).
-The next two digits indicate wheter (1) or not (0) the input (first digit) or the output (second digit) data is 'shifted' by half a sample.
-Think of this in terms of parity: is the symmetry axis on a sample (no shifting necessary) or between two samples (shifting necessary).
+The next two digits indicate wheter (**1**) or not (**0**) the input (first digit) or the output (second digit) data is 'shifted' by half a sample.
+Think of this in terms of parity: whether the symmetry axis is located at a sample (no shifting necessary) or between two samples (shifting necessary).
 The shifting becomes necessary when formulating the symmetry properties over sampled data that has integer indices
 vs. symmetry axis that are possibly located at half-integer locations.
 
@@ -322,6 +322,7 @@ The input array is assumed to have odd symmetry around *j=-1* and odd symmetry a
 
 In case of the real-valued odd-parity DFT with shifted input data (RODFT10),
 also called the DST-II, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+This function is commonly known as "the" DST.
 
 The formal definition of the RODFT10 is given below:
 
@@ -336,6 +337,7 @@ The input array is assumed to have odd symmetry around *j=-0.5* and odd symmetry
 
 In case of the real-valued odd-parity DFT with shifted output data (RODFT01),
 also called the DST-III, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+This function is commonly known as "the" inverse DST (IDST).
 
 The formal definition of the RODFT01 is given below:
 
