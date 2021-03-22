@@ -237,6 +237,8 @@ Think of this in terms of parity: is the symmetry axis on a sample (no shifting 
 The shifting becomes necessary when formulating the symmetry properties over sampled data that has integer indices
 vs. symmetry axis that are possibly located at half-integer locations.
 
+For all transforms, a periodicity of *N* is assumed for the *logical* input array as *X_j = X_{N+j}* where *X* is the input data array.
+
 #### REDFT00 (DCT-I)
 
 In case of the real-valued even-parity DFT with no shifts in either input or output array (REDFT00),
@@ -255,6 +257,7 @@ The input array is assumed to have even symmetry around *j=0* and even symmetry 
 
 In case of the real-valued even-parity DFT with shifted input data (REDFT10),
 also called the DCT-II, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+This function is commonly known as "the" DCT.
 
 The formal definition of the REDFT10 is given below:
 
@@ -269,6 +272,7 @@ The input array is assumed to have even symmetry around *j=-0.5* and even symmet
 
 In case of the real-valued even-parity DFT with shifted output data (REDFT01),
 also called the DCT-III, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+This function is commonly known as "the" inverse DCT (IDCT).
 
 The formal definition of the REDFT01 is given below:
 
@@ -298,33 +302,61 @@ and in particular https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmet
 
 #### RODFT00 (DST-I)
 
-*N* = 2(`n`+1) => `n` = *N*/2-1
+In case of the real-valued odd-parity DFT with no shifts in either input or output array (RODFT00),
+also called the DST-I, the corresponding logical DFT size is given by *N* = 2(`n`+1), corresponding to `n` = *N*/2-1.
+Note that the periodicity of *N* of the logical input array in combination with odd symmetry *X_j = -X_{n-j}*
+leads to *X_0 = -X_0* which is equivalent to *X_0 = 0*.
+This first always-zero element of the input array is not explicitly included in the input to FFTW
+and the input array thus has a size of one less and the indices of the symmetry axis shift by 1.
+
+The formal definition of the RODFT00 is given below:
 
 ![RODFT00 formula](eqn/rodft00.png)
+
+The inverse of this transform is RODFT00 itself.
+The input array is assumed to have odd symmetry around *j=-1* and odd symmetry also around *j=n*.
 
 ![RODFT00](img/rodft00.png)
 
 #### RODFT10 (DST-II)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued odd-parity DFT with shifted input data (RODFT10),
+also called the DST-II, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the RODFT10 is given below:
 
 ![RODFT10 formula](eqn/rodft10.png)
+
+The inverse of this transform is RODFT01.
+The input array is assumed to have odd symmetry around *j=-0.5* and odd symmetry also around *j=n-0.5*.
 
 ![RODFT10](img/rodft10.png)
 
 #### RODFT01 (DST-III)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued odd-parity DFT with shifted output data (RODFT01),
+also called the DST-III, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the RODFT01 is given below:
 
 ![RODFT01 formula](eqn/rodft01.png)
+
+The inverse of this transform is RODFT10.
+The input array is assumed to have odd symmetry around *j=-1* and even symmetry around *j=n-1*.
 
 ![RODFT01](img/rodft01.png)
 
 #### RODFT11 (DST-IV)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued odd-parity DFT with both shifted input and output data (RODFT11),
+also called the DST-IV, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the RODFT11 is given below:
 
 ![RODFT11 formula](eqn/rodft11.png)
+
+The inverse of this transform is RODFT11 itself.
+The input array is assumed to have odd symmetry around *j=-0.5* and even symmetry around *j=n-0.5*.
 
 ![RODFT11](img/rodft11.png)
 
