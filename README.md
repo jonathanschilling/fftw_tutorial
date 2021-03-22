@@ -208,14 +208,46 @@ the sign of a `r2c` DFT is always `FFTW_FORWARD`.
 
 ### 1D real-to-real
 
+Certain symmetries can be assumed for a given real input array of which a DFT is to be computed
+that lead to the output array being purely real as well. This is another gain of a factor of 2 in speed
+and memory usage over `r2c`/`c2r` transforms.
+Depending on even (odd) parity of the input array, the transform outputs have even (odd) parity.
+They are therefore called Discrete Cosine Transform (DCT) and Discrete Sine Transfrom (DST), respectively.
+
 The logical size of the corresponding DFT is denoted as *N*.
 The actual array size given to FFTW is denoted by `n`.
+For the DCT/DST types implemented in FFTW, *N* is always even.
+Note that this does not pose any restrictions on the input array sizes `n`.
+One can think of the logical DFT input array as one that FFTW 'sees' internally and computes a regular DFT of.
+The resulting output array is purely real and features the named symmetry properties, since it was 'constructed'
+from the given input array to have the desired symmetry properties.
+
+In below example plots used to illustrate the symmetry properties,
+random Fourier coefficients have been sampled and transformed back to real-space using the appropriate inverse transforms.
+This allows to 'evaluate' the input data also in between samples present in the (small) input arrays.
+In these plots, red dashed vertical lines indicate even symmetry (*f(x)=f(-x)*) about the indicated position
+and blue dashed vertical lines indicate odd symmetry (*f(x)=-f(-x)*) about the indicated position.
+
+The nomenclature works as follows:
+The first letter is **R** to indicate real-valued data.
+The second letter distinguished between **E** for even-parity data and **O** for odd-parity data.
+The following **DFT** is for discrete Fourier transform (who guessed...).
+The next two digits indicate wheter (1) or not (0) the input or the output data is 'shifted' by half a sample.
+Think of this in terms of parity: is the symmetry axis on a sample (no shifting necessary) or between two samples (shifting necessary).
+The shifting becomes necessary when formulating the symmetry properties over sampled data that has integer indices
+vs. symmetry axis that are possibly located at half-integer locations.
 
 #### REDFT00 (DCT-I)
 
-*N* = 2(`n`-1) => `n` = *N*/2+1
+In case of the real-valued even-parity DFT with no shifts in either input or output array (REDFT00),
+also called the DCT-I, the corresponding logical DFT size is given by *N* = 2(`n`-1), corresponding to `n` = *N*/2+1.
+
+The formal definition of the REDFT00 is given below:
 
 ![REDFT00 formula](eqn/redft00.png)
+
+The inverse of this transform is REDFT00 itself.
+The input array is assumed to have even symmetry around *j=0* and even symmetry also around *j=n−1*.
 
 ![REDFT00](img/redft00.png)
 
