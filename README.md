@@ -414,5 +414,5 @@ of real (`double`) and complex (`fftw_complex`) numbers.
 The following operations are supported:
  * fill with random numbers between 0 and 1: e.g. `fill_random_1d_cplx`
  * element-wise check for approximate equality: e.g. `compare_1d_real`
- * write into a text file.
+ * write into a text file: e.g. `dump_1d_real`
 
