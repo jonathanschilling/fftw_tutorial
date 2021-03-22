@@ -241,6 +241,19 @@ vs. symmetry axis that are possibly located at half-integer locations.
 
 For all transforms, a periodicity of *N* is assumed for the *logical* input array as *X_j = X_{N+j}* where *X* is the input data array.
 
+Here is a quick overview table to indicate the assumed symmetries in the input array for the following types of `r2r` DFTs:
+
+| type    | actual `r2r` input | logically-equivalent DFT input |
+| :------:| :-------: | :-----------------: |
+| REDFT00 | `a b c d e` | `a b c d  e  d  c  b` |
+| REDFT10 | `a b c d  ` | `a b c d  d  c  b  a` |
+| REDFT01 | `a b c d  ` | `a b c d  0 -d -c -b` |
+| REDFT11 | `a b c d  ` | `a b c d -d -c -b -a` |
+| RODFT00 | `a b c    ` | `0 a b c  0 -c -b -a` |
+| RODFT10 | `a b c d  ` | `a b c d -d -c -b -a` |
+| RODFT01 | `a b c d  ` | `a b c d  c  b  a  0` |
+| RODFT11 | `a b c d  ` | `a b c d  d  c  b  a` |
+
 #### REDFT00 (DCT-I)
 
 In case of the real-valued even-parity DFT with no shifts in either input or output array (REDFT00),
