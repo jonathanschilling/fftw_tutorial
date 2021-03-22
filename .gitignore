@@ -2,8 +2,10 @@
 test_1d_c2c
 test_1d_c2r
 test_1d_r2c
-test_1d_r2r
+test_1d_redft00
+test_1d_redft10
 
 # test output data
 test_1d_redft00_*
+test_1d_redft10_*
 
