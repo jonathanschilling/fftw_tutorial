@@ -329,7 +329,7 @@ for (int i = 0; i < n - 2; ++i) {
 }
 ```
 
-The full example can be found in [`src/test_1d_r2r.c`](src/test_1d_r2r.c).
+The full example function `test_1d_redft00` can be found in [`src/test_1d_r2r.c`](src/test_1d_r2r.c).
 
 #### REDFT10 (DCT-II)
 
