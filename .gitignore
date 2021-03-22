@@ -5,5 +5,5 @@ test_1d_r2c
 test_1d_r2r
 
 # test output data
-test_1d_redft00*
+test_1d_redft00_*
 
