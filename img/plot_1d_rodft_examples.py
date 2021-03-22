@@ -204,17 +204,17 @@ plt.axvspan(0-0.25, (n-1)+0.25, alpha=0.3, color='gray')
 
 plt.plot(r2r_in, 'bo')
 
-# # label individual points
-# for i in range(n-1):
-#     plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
-# plt.text(n-1-0.6, r2r_in[n-1]-0.03, chr(ord("a")+n-1))
+# label individual points
+for i in range(n-1):
+    plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
+plt.text(n-1-0.6, r2r_in[n-1]-0.03, chr(ord("a")+n-1))
 
 plt.plot(left_in_x, left_in_y, 'bo')
 
 plt.plot(full_in_x, full_in_y, 'bo')
 
-# for i in range(n):
-#     plt.text(full_in_x[i]+0.2, full_in_y[i]-0.03, chr(ord("a")+(n-1-i)))
+for i in range(n):
+    plt.text(full_in_x[i]+0.2, full_in_y[i]-0.03, "-"+chr(ord("a")+(n-1-i)))
 
 # only integer xaxis ticks
 plt.gca().xaxis.set_major_locator(MaxNLocator(steps=(1,10), integer=True))
