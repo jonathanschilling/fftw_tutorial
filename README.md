@@ -292,6 +292,45 @@ for (int i=0; i<n-1; ++i) {
 }
 ```
 
+The checks are a little bit more involved, but managable:
+
+```C
+// 1. logically equivalent output should be purely real-valued
+for (int i = 0; i < N; ++i) {
+    if (fabs(cimag(out_logical[i])) > eps) {
+        printf("error: imag of [%d] is %g\n", i, cimag(out_logical[i]));
+        status = 1;
+    } else {
+        printf("imag of [%d] is %g\n", i, cimag(out_logical[i]));
+    }
+}
+
+// 2. first n values should have identical real values
+double delta;
+for (int i = 0; i < n; ++i) {
+    delta = out_logical[i] - out[i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", i, delta);
+    }
+}
+
+// 3. even symmetry of output values around n-1
+for (int i = 0; i < n - 2; ++i) {
+    delta = out_logical[n + i] - out[n - 2 - i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", n+i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n+i, delta);
+    }
+}
+```
+
+The full example can be found in [`src/test_1d_r2r.c`](src/test_1d_r2r.c).
+
 #### REDFT10 (DCT-II)
 
 In case of the real-valued even-parity DFT with shifted input data (REDFT10),
