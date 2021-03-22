@@ -232,7 +232,7 @@ The nomenclature works as follows:
 The first letter is **R** to indicate real-valued data.
 The second letter distinguished between **E** for even-parity data and **O** for odd-parity data.
 The following **DFT** is for discrete Fourier transform (who guessed...).
-The next two digits indicate wheter (1) or not (0) the input or the output data is 'shifted' by half a sample.
+The next two digits indicate wheter (1) or not (0) the input (first digit) or the output (second digit) data is 'shifted' by half a sample.
 Think of this in terms of parity: is the symmetry axis on a sample (no shifting necessary) or between two samples (shifting necessary).
 The shifting becomes necessary when formulating the symmetry properties over sampled data that has integer indices
 vs. symmetry axis that are possibly located at half-integer locations.
@@ -253,25 +253,43 @@ The input array is assumed to have even symmetry around *j=0* and even symmetry 
 
 #### REDFT10 (DCT-II)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued even-parity DFT with shifted input data (REDFT10),
+also called the DCT-II, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the REDFT10 is given below:
 
 ![REDFT10 formula](eqn/redft10.png)
+
+The inverse of this transform is REDFT01.
+The input array is assumed to have even symmetry around *j=-0.5* and even symmetry also around *j=n−0.5*.
 
 ![REDFT10](img/redft10.png)
 
 #### REDFT01 (DCT-III)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued even-parity DFT with shifted output data (REDFT01),
+also called the DCT-III, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the REDFT01 is given below:
 
 ![REDFT01 formula](eqn/redft01.png)
+
+The inverse of this transform is REDFT10.
+The input array is assumed to have even symmetry around *j=0* and odd symmetry around *j=n*.
 
 ![REDFT01](img/redft01.png)
 
 #### REDFT11 (DCT-IV)
 
-*N* = 2`n` => `n` = *N*/2
+In case of the real-valued even-parity DFT with both shifted input and output data (REDFT11),
+also called the DCT-IV, the corresponding logical DFT size is given by *N* = 2`n`, corresponding to `n` = *N*/2.
+
+The formal definition of the REDFT11 is given below:
 
 ![REDFT11 formula](eqn/redft11.png)
+
+The inverse of this transform is REDFT11 itself.
+The input array is assumed to have even symmetry around *j=-0.5* and odd symmetry around *j=n-0.5*.
 
 ![REDFT11](img/redft11.png)
 
