@@ -41,6 +41,15 @@ def redft01(arr):
             out[k] += 2.0 * arr[j] * np.cos(np.pi*j*(k+0.5)/n)
     return out
 
+# compute the REDFT11 as defined in the FFTW reference manual
+def redft11(arr):
+    n = len(arr)
+    out = np.zeros([n])
+    for k in range(n):
+        for j in range(n):
+            out[k] += 2.0 * arr[j] * np.cos(np.pi*(j+0.5)*(k+0.5)/n)
+    return out
+
 # evaluate the REDFT00 at all points given in x
 def eval_redft00(arr, x):
     n = len(arr)
@@ -68,6 +77,14 @@ def eval_redft01(arr, x):
         y += 2.0*arr[j]*np.cos(np.pi*j*(x+0.5/n))
     return y
 
+# evaluate the REDFT11 at all points given in x
+def eval_redft11(arr, x):
+    n = len(arr)
+    y = np.zeros_like(x)
+    for j in range(n):
+        y += 2.0*arr[j]*np.cos(np.pi*(j+0.5)*(x+0.5/n))
+    return y
+
 #%% REDFT00 
 
 # input size for REDFT00
@@ -83,7 +100,14 @@ r2r_out = rng.uniform(size=n)
 # compute input of REDFT00 by REDFT00 (the inverse of REDFT00)
 r2r_in = redft00(r2r_out)/n
 
-# extend to equivalent DFT size
+# extend to left for highlighting symmetry at start of array
+left_in_x = np.arange(-n, 0)
+left_in_y = np.zeros([n])
+for i in range(n):
+    # even symmetry around 0
+    left_in_y[i] = r2r_in[-i]
+
+# extend to equivalent DFT size to highlight symmetry at end of array
 full_in_x = np.arange(n, N)
 full_in_y = np.zeros([N-n])
 for i in range(N-n):
@@ -115,6 +139,8 @@ plt.plot(r2r_in, 'bo')
 for i in range(n):
     plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
 
+plt.plot(left_in_x, left_in_y, 'bo')
+
 # plot data extending REDFT00 to full DFT
 plt.plot(full_in_x, full_in_y, 'bo')
 
@@ -144,7 +170,14 @@ r2r_out = rng.uniform(size=n)
 # compute input of REDFT10 by using REDFT01 (the inverse of REDFT10)
 r2r_in = redft01(r2r_out)/n
 
-# extend to equivalent DFT size
+# extend to left for highlighting symmetry at start of array
+left_in_x = np.arange(-n, 0)
+left_in_y = np.zeros([n])
+for i in range(n):
+    # even symmetry around -0.5
+    left_in_y[i] = r2r_in[-i-1]
+
+# extend to equivalent DFT size for highlighting symmetry at end of array
 full_in_x = np.arange(n, N)
 full_in_y = np.zeros([N-n])
 for i in range(N-n):
@@ -177,6 +210,8 @@ for i in range(n-1):
     plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
 plt.text(n-1-0.6, r2r_in[n-1]-0.03, chr(ord("a")+n-1))
 
+plt.plot(left_in_x, left_in_y, 'bo')
+
 plt.plot(full_in_x, full_in_y, 'bo')
 
 for i in range(n):
@@ -193,68 +228,148 @@ plt.tight_layout()
 plt.savefig("redft10.png")
 
 #%% REDFT01
+n = 4
 
-# plt.figure(figsize=(5,3))
-# plt.plot(t_ref*N, y_ref_2, '-', color='gray', linewidth=0.5)
-# plt.axhline(0, ls='-', color='k')
-# plt.axvline(0, ls='-', color='k')
+# logical size of equivalent DFT (for REDFT01)
+N = 2*n
 
-# # symmetry lines
-# plt.axvline(0, ls='--', color='r')
-# plt.axvline(n, ls='--', color='b')
+# random Fourier coefficients
+rng = default_rng(seed=41)
+r2r_out = rng.uniform(size=n)
 
-# # highlight array contents
-# plt.axvspan(0-0.25, (n-1)+0.25, alpha=0.3, color='gray')
+# compute input of REDFT01 by using REDFT10 (the inverse of REDFT01)
+r2r_in = redft10(r2r_out)/n
 
-# plt.plot(t, y2, 'bo')
+# extend to left for highlighting symmetry at start of array
+left_in_x = np.arange(-n, 0)
+left_in_y = np.zeros([n])
+for i in range(1,n):
+    # even symmetry around 0
+    left_in_y[-i] = r2r_in[i]
 
-# for i in range(N):
-#     if i>n:
-#         plt.text(t[int(i+N/2)]+0.2, y2[int(i+N/2)], "-"+chr(ord("a")+(N-i)))
-#     elif i<n:
-#         plt.text(t[int(i+N/2)]+0.2, y2[int(i+N/2)], chr(ord("a")+i))
+# extend to equivalent DFT size for highlighting symmetry at end of array
+full_in_x = np.arange(n, N)
+full_in_y = np.zeros([N-n])
+for i in range(1,N-n):
+    # odd symmetry around n
+    full_in_y[i] = -r2r_in[-i]
 
-# # only integer xaxis ticks
-# plt.gca().xaxis.set_major_locator(MaxNLocator(steps=(1,10), integer=True))
-# plt.xlim((-4.5, 8.5))
+# sample "inputs" at finer intervals
+nFine = 1024
+x = np.linspace(-n, N, nFine)
+y = eval_redft10(r2r_out, x/n)/n
 
-# plt.grid(True)
-# plt.xlabel("j")
-# plt.title("REDFT01 N=%d n=%d"%(N, n))
-# plt.tight_layout()
-# plt.savefig("redft01.png")
+plt.figure(figsize=(5,3))
+
+plt.plot(x, y, '-', color='gray', linewidth=0.5)
+
+plt.axhline(0, ls='-', color='k')
+plt.axvline(0, ls='-', color='k')
+
+# symmetry lines
+plt.axvline(0, ls='--', color='r')
+plt.axvline(n, ls='--', color='b')
+
+# highlight array contents
+plt.axvspan(0-0.25, (n-1)+0.25, alpha=0.3, color='gray')
+
+plt.plot(r2r_in, 'bo')
+
+# label individual points
+i=0
+plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
+for i in range(1,n):
+    plt.text(i-0.5, r2r_in[i]-0.03, chr(ord("a")+i))
+
+plt.plot(left_in_x, left_in_y, 'bo')
+
+plt.plot(full_in_x, full_in_y, 'bo')
+
+plt.text(full_in_x[0]+0.2, full_in_y[0]+0.04, "0")
+for i in range(1,n):
+    plt.text(full_in_x[i]+0.2, full_in_y[i]-0.03, "-"+chr(ord("a")+(n-i)))
+
+# only integer xaxis ticks
+plt.gca().xaxis.set_major_locator(MaxNLocator(steps=(1,10), integer=True))
+plt.xlim((-4.5, 8.5))
+
+plt.grid(True)
+plt.xlabel("j")
+plt.title("REDFT01 N=%d n=%d"%(N, n))
+plt.tight_layout()
+plt.savefig("redft01.png")
 
 
 #%% REDFT11
 
-# plt.figure(figsize=(5,3))
-# plt.plot(t_ref[int(n_ref/N/2):-int(n_ref/N/2)]*N-0.5, y_ref_2[int(n_ref/N/2):-int(n_ref/N/2)], '-', color='gray', linewidth=0.5)
-# plt.axhline(0, ls='-', color='k')
-# plt.axvline(0, ls='-', color='k')
+# input size for REDFT11
+n = 4
 
-# # symmetry lines
-# plt.axvline(-0.5, ls='--', color='r')
-# plt.axvline(n-0.5, ls='--', color='b')
+# logical size of equivalent DFT (for REDFT11)
+N = 2*n
 
-# # highlight array contents
-# plt.axvspan(0-0.25, (n-1)+0.25, alpha=0.3, color='gray')
+# random Fourier coefficients
+rng = default_rng(seed=42)
+r2r_out = rng.uniform(size=n)
 
-# plt.plot(t, y3, 'bo')
+# compute input of REDFT11 by REDFT11 (the inverse of REDFT11)
+r2r_in = redft11(r2r_out)/n
 
-# for i in range(N):
-#     if i==n-1:
-#         plt.text(t[int(i+N/2)]-0.6, y3[int(i+N/2)], chr(ord("a")+i))
-#     elif i>=n:
-#         plt.text(t[int(i+N/2)]+0.2, y3[int(i+N/2)], "-"+chr(ord("a")+(N-i-1)))
-#     else:
-#         plt.text(t[int(i+N/2)]+0.2, y3[int(i+N/2)], chr(ord("a")+i))
+# extend to left for highlighting symmetry at start of array
+left_in_x = np.arange(-n, 0)
+left_in_y = np.zeros([n])
+for i in range(n):
+    # even symmetry around -0.5
+    left_in_y[i] = r2r_in[-i-1]
 
-# # only integer xaxis ticks
-# plt.gca().xaxis.set_major_locator(MaxNLocator(steps=(1,10), integer=True))
-# plt.xlim((-4.5, 8.5))
+# extend to equivalent DFT size to highlight symmetry at end of array
+full_in_x = np.arange(n, N)
+full_in_y = np.zeros([N-n])
+for i in range(N-n):
+    # odd symmetry around n-0.5
+    full_in_y[i] = -r2r_in[-i-1]
 
-# plt.grid(True)
-# plt.xlabel("j")
-# plt.title("REDFT11 N=%d n=%d"%(N, n))
-# plt.tight_layout()
-# plt.savefig("redft11.png")
+# sample at finer intervals
+nFine = 1024
+x = np.linspace(-n, N, nFine)
+y = eval_redft11(r2r_out, x/n)/n
+
+plt.figure(figsize=(5,3))
+
+plt.plot(x, y, '-', color='gray', linewidth=0.5)
+plt.axhline(0, ls='-', color='k')
+plt.axvline(0, ls='-', color='k')
+
+# symmetry lines
+plt.axvline(-0.5, ls='--', color='r')
+plt.axvline(n-0.5, ls='--', color='b')
+
+# highlight array contents
+plt.axvspan(0-0.25, (n-1)+0.25, alpha=0.3, color='gray')
+
+# plot actual REDFT11 input
+plt.plot(r2r_in, 'bo')
+
+# label individual points
+for i in range(n-1):
+    plt.text(i+0.2, r2r_in[i]-0.03, chr(ord("a")+i))
+i=n-1
+plt.text(i-0.5, r2r_in[i]-0.18, chr(ord("a")+i))
+
+plt.plot(left_in_x, left_in_y, 'bo')
+
+# plot data extending REDFT11 to full DFT
+plt.plot(full_in_x, full_in_y, 'bo')
+
+for i in range(N-n):
+    plt.text(full_in_x[i]+0.2, full_in_y[i]-0.03, "-"+chr(ord("a")+(n-1-i)))
+
+# only integer xaxis ticks at intervals of 1
+plt.gca().xaxis.set_major_locator(MaxNLocator(steps=(1,10), integer=True))
+plt.xlim((-4.5, 8.5))
+
+plt.grid(True)
+plt.xlabel("j")
+plt.title("REDFT11 N=%d n=%d"%(N, n))
+plt.tight_layout()
+plt.savefig("redft11.png")
