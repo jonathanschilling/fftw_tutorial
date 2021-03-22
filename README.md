@@ -255,6 +255,9 @@ The input array is assumed to have even symmetry around *j=0* and even symmetry 
 
 ![REDFT00](img/redft00.png)
 
+In above figure, the lowercase letters *a* to *e* refer to the input data *abcde* for the size-5 REDFT00,
+which is logically equivalent to a size-8 DFT with real-valued input data *abcdedcb*.
+
 #### REDFT10 (DCT-II)
 
 In case of the real-valued even-parity DFT with shifted input data (REDFT10),
@@ -269,6 +272,9 @@ The inverse of this transform is REDFT01.
 The input array is assumed to have even symmetry around *j=-0.5* and even symmetry also around *j=n−0.5*.
 
 ![REDFT10](img/redft10.png)
+
+In above figure, the lowercase letters *a* to *e* refer to the input data *abcd* for the size-4 REDFT10,
+which is logically equivalent to a size-8 DFT with real-valued input data *abcddcba*.
 
 #### REDFT01 (DCT-III)
 
