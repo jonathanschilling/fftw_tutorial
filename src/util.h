@@ -81,6 +81,35 @@ void compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
         printf("=> errors\n");
     }
 }
+
+void dump_1d_real(char* filename, int n, double *arr) {
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) {
+        printf("error: could not open file %s for writing\n", filename);
+        return;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        fprintf(fp, "%+6.5f\n", arr[i]);
+    }
+
+    fclose(fp);
+}
+
+void dump_1d_cplx(char* filename, int n, fftw_complex *arr) {
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) {
+        printf("error: could not open file %s for writing\n", filename);
+        return;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        fprintf(fp, "%+6.5f %+6.5f\n", creal(arr[i]), cimag(arr[i]));
+    }
+
+    fclose(fp);
+}
+
 //
 //int compare_2d_cplx(int n_1, int n_2, fftw_complex *out, fftw_complex *ref_out,
 //        double eps) {
