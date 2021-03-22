@@ -7,7 +7,8 @@ LIBS=-lfftw3 -lm
 
 all: test_1d_c2c \
      test_1d_c2r \
-     test_1d_r2c
+     test_1d_r2c \
+     test_1d_r2r
 
 clean:
 	rm test_1d_c2c
@@ -20,3 +21,6 @@ test_1d_c2r: src/test_1d_c2r.c src/util.h
 
 test_1d_r2c: src/test_1d_r2c.c src/util.h
 	${CC} src/test_1d_r2c.c -o test_1d_r2c ${LIBS}
+
+test_1d_r2r: src/test_1d_r2r.c src/util.h
+	${CC} src/test_1d_r2r.c -o test_1d_r2r ${LIBS}
