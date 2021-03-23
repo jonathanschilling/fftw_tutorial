@@ -18,8 +18,10 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
       6. [RODFT10 (DST-II)](https://github.com/jonathanschilling/fftw_tutorial#rodft10-dst-ii)
       7. [RODFT01 (DST-III)](https://github.com/jonathanschilling/fftw_tutorial#rodft01-dst-iii)
       8. [RODFT11 (DST-IV)](https://github.com/jonathanschilling/fftw_tutorial#rodft11-dst-iv)
-2. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
-3. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
+2. [Two-Dimensional Examples](https://github.com/jonathanschilling/fftw_tutorial#two-dimensional-examples)
+   1. [2D complex-to-complex](https://github.com/jonathanschilling/fftw_tutorial#2d-complex-to-complex)
+3. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
+4. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
 
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
