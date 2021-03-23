@@ -23,5 +23,5 @@ test_1d_rodft11_*
 
 # auxiliary tests
 test_util
-test.dat
+test_util.dat
 

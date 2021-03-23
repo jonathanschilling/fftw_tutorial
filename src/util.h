@@ -263,70 +263,6 @@ void dft_1d_cplx(int n, fftw_complex *in, fftw_complex *out, double a, double b)
     }
 }
 
-//
-//int compare_2d_cplx(int n_1, int n_2, fftw_complex *out, fftw_complex *ref_out,
-//        double eps) {
-//    int row_offset_k, index_k;
-//    int status = 0;
-//    double dR, dI;
-//
-//    row_offset_k = 0;
-//    for (int k_1 = 0; k_1 < n_1; ++k_1) {
-//        for (int k_2 = 0; k_2 < n_2; ++k_2) {
-//            index_k = row_offset_k + k_2;
-//
-//            printf("compare ref_out[%d][%d] ...\n", k_1, k_2);
-//
-//            dR = creal(out[index_k]) - creal(ref_out[index_k]);
-//            if (fabs(dR) > eps) {
-//                printf("  real: expected %g, got %g (difference %g)\n",
-//                        creal(out[index_k]), creal(ref_out[index_k]), dR);
-//                status = 1;
-//            } else {
-//                printf("  real ok (%g)\n", dR);
-//            }
-//
-//            dI = cimag(out[index_k]) - cimag(ref_out[index_k]);
-//            if (fabs(dI) > eps) {
-//                printf("  imag: expected %g, got %g (difference %g)\n",
-//                        cimag(out[index_k]), cimag(ref_out[index_k]), dI);
-//                status = 1;
-//            } else {
-//                printf("  imag ok (%g)\n", dI);
-//            }
-//
-//        }
-//        row_offset_k += n_2;
-//    }
-//    return status;
-//}
-//
-//int compare_2d_real(int n_1, int n_2, double *out, double *ref_out, double eps) {
-//    int row_offset_k, index_k;
-//    int status = 0;
-//    double d;
-//
-//    row_offset_k = 0;
-//    for (int k_1 = 0; k_1 < n_1; ++k_1) {
-//        for (int k_2 = 0; k_2 < n_2; ++k_2) {
-//            index_k = row_offset_k + k_2;
-//
-//            printf("compare ref_out[%d][%d] ...\n", k_1, k_2);
-//
-//            d = out[index_k] - ref_out[index_k];
-//            if (fabs(d) > eps) {
-//                printf("  expected %g, got %g (difference %g)\n", out[index_k],
-//                        ref_out[index_k], d);
-//                status = 1;
-//            } else {
-//                printf("  ok (%g)\n", d);
-//            }
-//        }
-//        row_offset_k += n_2;
-//    }
-//    return status;
-//}
-//
 //void read_lcfs(int *mpol, int *ntor, int *mnmax, int *nfp, double *rmnc,
 //        double *zmns) {
 //    char *line = NULL;
@@ -374,7 +310,7 @@ void dft_1d_cplx(int n, fftw_complex *in, fftw_complex *out, double a, double b)
 //        free(line);
 //    }
 //}
-//
+
 //void write_lcfs_realspace(char *filename, int nu, int nv, double *val) {
 //
 //    FILE *fp = fopen(filename, "w");
