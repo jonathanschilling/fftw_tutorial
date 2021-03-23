@@ -1003,6 +1003,12 @@ for (int i = 0; i < n; ++i) {
 
 The full example can be found in [`src/test_1d_rodft11.c`](src/test_1d_rodft11.c).
 
+## Two-Dimensional Examples
+The next section deals with the computation of two-dimensional (2D) DFTs of random input data.
+
+### 2D complex-to-complex
+
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
