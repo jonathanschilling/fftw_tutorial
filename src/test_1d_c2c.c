@@ -7,8 +7,8 @@
 
 #include "util.h"
 
-void test_1d_c2c() {
-    int n = 32;
+int test_1d_c2c(int n) {
+
     int dir = FFTW_BACKWARD;
     double real, imag, phi;
 
@@ -38,15 +38,19 @@ void test_1d_c2c() {
 
     // compare reference output with FFTW output
     double eps = 1e-12;
-    compare_1d_cplx(n, ref_out, fftw_out, eps);
+    int status = compare_1d_cplx(n, ref_out, fftw_out, eps);
 
     fftw_destroy_plan(p);
     fftw_free(in);
     fftw_free(ref_out);
     fftw_free(fftw_out);
+
+    return status;
 }
 
 int main(int argc, char** argv) {
-    test_1d_c2c();
-    return 0;
+    int status = 0;
+    status += test_1d_c2c(32);
+    status += test_1d_c2c(33);
+    return status;
 }

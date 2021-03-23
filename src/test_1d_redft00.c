@@ -7,9 +7,8 @@
 
 #include "util.h"
 
-void test_1d_redft00() {
+int test_1d_redft00(int n) {
 
-    int n = 5;
     int N = 2 * (n - 1);
 
     double *in = fftw_alloc_real(n);
@@ -92,10 +91,13 @@ void test_1d_redft00() {
     fftw_free(in_logical);
     fftw_free(out);
     fftw_free(out_logical);
+
+    return status;
 }
 
 int main(int argc, char** argv) {
-    test_1d_redft00();
-
-    return 0;
+    int status = 0;
+    status += test_1d_redft00(5);
+    status += test_1d_redft00(6);
+    return status;
 }

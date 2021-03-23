@@ -23,7 +23,7 @@ void fill_random_1d_cplx(int n, fftw_complex *arr) {
     }
 }
 
-void compare_1d_real(int n, double *ref, double *arr, double eps) {
+int compare_1d_real(int n, double *ref, double *arr, double eps) {
     int status = 0;
     double delta;
 
@@ -46,9 +46,11 @@ void compare_1d_real(int n, double *ref, double *arr, double eps) {
     } else {
         printf("=> errors\n");
     }
+
+    return status;
 }
 
-void compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
+int compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
     int status = 0;
     double delta_real, delta_imag;
 
@@ -80,6 +82,8 @@ void compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
     } else {
         printf("=> errors\n");
     }
+
+    return status;
 }
 
 void dump_1d_real(char* filename, int n, double *arr) {

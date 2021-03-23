@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-void test_1d_r2c(int n) {
+int test_1d_r2c(int n) {
     double real, imag, phi;
 
     int nCplx = n / 2 + 1;
@@ -43,16 +43,19 @@ void test_1d_r2c(int n) {
 
     // compare reference output with FFTW output
     double eps = 1e-12;
-    compare_1d_cplx(nCplx, ref_out, fftw_out, eps);
+    int status = compare_1d_cplx(nCplx, ref_out, fftw_out, eps);
 
     fftw_destroy_plan(p);
     fftw_free(in);
     fftw_free(ref_out);
     fftw_free(fftw_out);
+
+    return status;
 }
 
 int main(int argc, char** argv) {
-    test_1d_r2c(32);
-    test_1d_r2c(33);
-    return 0;
+    int status = 0;
+    status += test_1d_r2c(32);
+    status += test_1d_r2c(33);
+    return status;
 }

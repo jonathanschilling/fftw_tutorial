@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-void test_1d_c2r(int n) {
+int test_1d_c2r(int n) {
     double real, phi;
 
     int nCplx = n / 2 + 1;
@@ -37,7 +37,7 @@ void test_1d_c2r(int n) {
             phi = 2.0 * M_PI * (nCplx - 1) * k / ((double) n);
             ref_out[k] += creal(in[nCplx - 1]) * cos(phi);
 
-            loopEnd = nCplx-1;
+            loopEnd = nCplx - 1;
         }
 
         // middle elements are handled the same for even and odd n
@@ -54,16 +54,19 @@ void test_1d_c2r(int n) {
 
     // compare reference output with FFTW output
     double eps = 1e-12;
-    compare_1d_real(n, ref_out, fftw_out, eps);
+    int status = compare_1d_real(n, ref_out, fftw_out, eps);
 
     fftw_destroy_plan(p);
     fftw_free(in);
     fftw_free(ref_out);
     fftw_free(fftw_out);
+
+    return status;
 }
 
 int main(int argc, char** argv) {
-    test_1d_c2r(32);
-    test_1d_c2r(33);
-    return 0;
+    int status = 0;
+    status += test_1d_c2r(32);
+    status += test_1d_c2r(33);
+    return status;
 }

@@ -7,9 +7,8 @@
 
 #include "util.h"
 
-void test_1d_rodft11() {
+int test_1d_rodft11(int n) {
 
-    int n = 4;
     int N = 2 * n;
 
     double *in = fftw_alloc_real(n);
@@ -92,10 +91,13 @@ void test_1d_rodft11() {
     fftw_free(in_logical);
     fftw_free(out);
     fftw_free(out_logical);
+
+    return status;
 }
 
 int main(int argc, char** argv) {
-    test_1d_rodft11();
-
-    return 0;
+    int status = 0;
+    status += test_1d_rodft11(4);
+    status += test_1d_rodft11(5);
+    return status;
 }
