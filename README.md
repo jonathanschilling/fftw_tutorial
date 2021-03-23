@@ -393,7 +393,7 @@ for (int i = 0; i < N; ++i) {
 }
 ```
 
-The first `n` values should be identical between `REDFT00` and the generalized DFT:
+The first `n` values should be identical between `REDFT10` and the generalized DFT:
 
 ```C
 for (int i = 0; i < n; ++i) {
@@ -434,7 +434,6 @@ for (int i = 1; i < n; ++i) {
 
 The full example can be found in [`src/test_1d_redft10.c`](src/test_1d_redft10.c).
 
-
 #### REDFT01 (DCT-III)
 
 In case of the real-valued even-parity DFT with shifted output data (REDFT01),
@@ -449,6 +448,72 @@ The inverse of this transform is REDFT10.
 The input array is assumed to have even symmetry around *j=0* and odd symmetry around *j=n*.
 
 ![REDFT01](img/redft01.png)
+
+In order to demonstrate the use of this method,
+the logically equivalent DFT input is filled appropriately and its output is checked against `REDFT01`.
+In the following code, `in` is the input array (size `n`) given to `REDFT01`
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a
+[generic 1D DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase)).
+Similarly, `out` is the output array (size `n`) from `REDFT01`
+and `out_logical` is the output array (size *N*) from a generic 1D DFT.
+
+Here is how the symmetric input is generated:
+
+```C
+// the first half of the array is identical
+for (int i = 0; i < n; ++i) {
+    in_logical[i] = in[i];
+}
+
+// second half is filled according to odd symmetry around n
+for (int i = 1; i < n; ++i) {
+    in_logical[n + i] = -in[n - i];
+}
+```
+
+The checks are a little bit more involved.
+The logically equivalent DFT output should be purely real-valued:
+
+```C
+for (int i = 0; i < N; ++i) {
+    if (fabs(cimag(out_logical[i])) > eps) {
+        printf("error: imag of [%d] is %g\n", i, cimag(out_logical[i]));
+        status = 1;
+    } else {
+        printf("imag of [%d] is %g\n", i, cimag(out_logical[i]));
+    }
+}
+```
+
+The first `n` values should be identical between `REDFT01` and the generalized DFT:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = creal(out_logical[i]) - out[i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", i, delta);
+    }
+}
+```
+
+The remaining values should have even symmetry around `n-0.5`:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = creal(out_logical[n + i]) - out[n - 1 - i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", n + i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n + i, delta);
+    }
+}
+```
+
+The full example can be found in [`src/test_1d_redft01.c`](src/test_1d_redft01.c).
 
 #### REDFT11 (DCT-IV)
 
