@@ -258,7 +258,7 @@ Here is a quick overview table to indicate the assumed symmetries in the input a
 For the DCTs, please also consider https://en.wikipedia.org/wiki/Discrete_cosine_transform#Formal_definition
 and in particular https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg .
 
-For the DSTs, pleasealso consider https://en.wikipedia.org/wiki/Discrete_sine_transform#Definition
+For the DSTs, please also consider https://en.wikipedia.org/wiki/Discrete_sine_transform#Definition
 and in particular https://upload.wikimedia.org/wikipedia/commons/3/31/DST-symmetries.svg .
 
 #### REDFT00 (DCT-I)
