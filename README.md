@@ -274,7 +274,8 @@ which is logically equivalent to a size-8 DFT with real-valued input data *abcde
 In order to demonstrate the use of this method,
 the logically equivalent DFT input is filled appropriately and its output is checked against `REDFT00`.
 In the following code, `in` is the input array (size `n`) given to `REDFT00`
-and `in_logical` is the (complex-valued) input array (size *N*) handed to a generic 1D DFT.
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a
+[generic 1D DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase)).
 Similarly, `out` is the output array (size `n`) from `REDFT00`
 and `out_logical` is the output array (size *N*) from a generic 1D DFT.
 
@@ -292,10 +293,10 @@ for (int i=0; i<n-1; ++i) {
 }
 ```
 
-The checks are a little bit more involved, but managable:
+The checks are a little bit more involved.
+The logically equivalent DFT output should be purely real-valued:
 
 ```C
-// 1. logically equivalent output should be purely real-valued
 for (int i = 0; i < N; ++i) {
     if (fabs(cimag(out_logical[i])) > eps) {
         printf("error: imag of [%d] is %g\n", i, cimag(out_logical[i]));
@@ -304,8 +305,11 @@ for (int i = 0; i < N; ++i) {
         printf("imag of [%d] is %g\n", i, cimag(out_logical[i]));
     }
 }
+```
 
-// 2. first n values should have identical real values
+The first `n` values should be identical between `REDFT00` and the generalized DFT:
+
+```C
 double delta;
 for (int i = 0; i < n; ++i) {
     delta = out_logical[i] - out[i];
@@ -316,8 +320,11 @@ for (int i = 0; i < n; ++i) {
         printf("match of [%d] (delta=%g)\n", i, delta);
     }
 }
+```
 
-// 3. even symmetry of output values around n-1
+The remaining values should have even symmetry around `n-1`:
+
+```C
 for (int i = 0; i < n - 2; ++i) {
     delta = out_logical[n + i] - out[n - 2 - i];
     if (fabs(delta) > eps) {
