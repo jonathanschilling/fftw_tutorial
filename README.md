@@ -619,6 +619,102 @@ The input array is assumed to have odd symmetry around *j=-1* and odd symmetry a
 
 ![RODFT00](img/rodft00.png)
 
+In order to demonstrate the use of this method,
+the logically equivalent DFT input is filled appropriately and its output is checked against `RODFT00`.
+In the following code, `in` is the input array (size `n`) given to `RODFT00`
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a
+[generic 1D DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase)).
+Similarly, `out` is the output array (size `n`) from `RODFT00`
+and `out_logical` is the output array (size *N*) from a generic 1D DFT.
+
+Here is how the symmetric input is generated:
+
+```C
+// the first half of the array is identical
+// except the first 0 (and the rest of the array being shifted)
+in_logical[0] = 0.0;
+for (int i = 0; i < n; ++i) {
+    in_logical[i + 1] = in[i];
+}
+
+// second half is filled according to odd symmetry around (n+1)
+in_logical[n + 1] = 0.0;
+for (int i = 0; i < n; ++i) {
+    in_logical[n + 2 + i] = -in[n - 1 - i];
+}
+```
+
+The checks are a little bit more involved.
+The logically equivalent DFT output should be purely imaginary-valued:
+
+```C
+for (int i = 0; i < N; ++i) {
+    if (fabs(creal(out_logical[i])) > eps) {
+        printf("error: real of [%d] is %g\n", i, creal(out_logical[i]));
+        status = 1;
+    } else {
+        printf("real of [%d] is %g\n", i, creal(out_logical[i]));
+    }
+}
+```
+
+Odd symmetry about `0` implies that the imaginary part of the first output should be zero:
+
+```C
+if (fabs(cimag(out_logical[0])) > eps) {
+    printf("error: delta of [%d] is %g\n", 0, -cimag(out_logical[0]));
+    status = 1;
+} else {
+    printf("match of [%d] (delta=%g)\n", 0, -cimag(out_logical[0]));
+}
+```
+
+The next `n` values should have the output of `RODFT00` in their negative imaginary parts
+with one index offset to account for the first zero in the input:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = -cimag(out_logical[i + 1]) - out[i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", i + 1, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", i + 1, delta);
+    }
+}
+```
+
+Odd symmetry about `n` in the input to `RODFT00` implies
+odd symmetry in the output of the logically-equivalent DFT about `n+1` due to the index shift by one:
+
+```C
+if (fabs(cimag(out_logical[n + 1])) > eps) {
+    printf("error: delta of [%d] is %g\n", n + 1,
+            -cimag(out_logical[n + 1]));
+    status = 1;
+} else {
+    printf("match of [%d] (delta=%g)\n", n + 1, -cimag(out_logical[n + 1]));
+}
+```
+
+The remaining values should have odd symmetry around `n+1`
+(note again that the real output from `RODFT00` needs to be compared against
+the negative imaginary parts in the output of the logically equivalent DFT shifted by one full index):
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = -cimag(out_logical[n + 2 + i]) - (-out[n - 1 - i]);
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", n + 2 + i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n + 2 + i, delta);
+    }
+}
+```
+
+The full example can be found in [`src/test_1d_rodft00.c`](src/test_1d_rodft00.c).
+
 #### RODFT10 (DST-II)
 
 In case of the real-valued odd-parity DFT with shifted input data (RODFT10),
