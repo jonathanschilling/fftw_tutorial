@@ -5,9 +5,11 @@ test_1d_r2c
 test_1d_redft00
 test_1d_redft10
 test_1d_redft01
+test_1d_redft11
 
 # test output data
 test_1d_redft00_*
 test_1d_redft10_*
 test_1d_redft01_*
+test_1d_redft11_*
 
