@@ -915,6 +915,74 @@ The input array is assumed to have odd symmetry around *j=-0.5* and even symmetr
 
 ![RODFT11](img/rodft11.png)
 
+In order to demonstrate the use of this method,
+the logically equivalent DFT input is filled appropriately and its output is checked against `RODFT11`.
+In the following code, `in` is the input array (size `n`) given to `RODFT11`
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a
+[generic 1D DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase)).
+Similarly, `out` is the output array (size `n`) from `RODFT11`
+and `out_logical` is the output array (size *N*) from a generic 1D DFT.
+
+Here is how the symmetric input is generated:
+
+```C
+// the first half of the array is identical up to shift
+for (int i = 0; i < n; ++i) {
+    in_logical[i] = in[i];
+}
+
+// second half is filled according to even symmetry around (n-0.5)
+for (int i = 0; i < n; ++i) {
+    in_logical[n + i] = in[n - 1 - i];
+}
+```
+
+The checks are a little bit more involved.
+The logically equivalent DFT output should be purely imaginary-valued:
+
+```C
+for (int i = 0; i < N; ++i) {
+    if (fabs(creal(out_logical[i])) > eps) {
+        printf("error: real of [%d] is %g\n", i, creal(out_logical[i]));
+        status = 1;
+    } else {
+        printf("real of [%d] is %g\n", i, creal(out_logical[i]));
+    }
+}
+```
+
+The first `n` values should have the output of `RODFT11` in their negative imaginary parts:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = -cimag(out_logical[i]) - out[i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", i, delta);
+    }
+}
+```
+
+The remaining values have even symmetry around `n-0.5`
+(note again that the real output from `RODFT11` needs to be compared against
+the negative imaginary parts in the output of the logically equivalent DFT):
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = -cimag(out_logical[n + i]) - out[n - 1 - i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", n + i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n + i, delta);
+    }
+}
+```
+
+The full example can be found in [`src/test_1d_rodft11.c`](src/test_1d_rodft11.c).
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
