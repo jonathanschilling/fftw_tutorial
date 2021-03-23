@@ -21,3 +21,7 @@ test_1d_rodft10_*
 test_1d_rodft01_*
 test_1d_rodft11_*
 
+# auxiliary tests
+test_util
+test.dat
+

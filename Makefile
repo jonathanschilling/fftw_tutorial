@@ -5,7 +5,8 @@ LIBS=-lfftw3 -lm
 
 .PHONY: all clean test
 
-TARGETS=test_1d_c2c \
+TARGETS=test_util \
+        test_1d_c2c \
         test_1d_c2r \
         test_1d_r2c \
         test_1d_redft00 \

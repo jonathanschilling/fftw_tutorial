@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <complex.h>
 #include <fftw3.h>
@@ -20,6 +21,25 @@ void fill_random_1d_cplx(int n, fftw_complex *arr) {
         real = rand() / ((double) RAND_MAX);
         imag = rand() / ((double) RAND_MAX);
         arr[i] = real + I * imag;
+    }
+}
+
+void fill_random_2d_real(int rows, int cols, double *arr) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            arr[i * cols + j] = rand() / ((double) RAND_MAX);
+        }
+    }
+}
+
+void fill_random_2d_cplx(int rows, int cols, fftw_complex *arr) {
+    double real, imag;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            real = rand() / ((double) RAND_MAX);
+            imag = rand() / ((double) RAND_MAX);
+            arr[i * cols + j] = real + I * imag;
+        }
     }
 }
 
@@ -86,6 +106,78 @@ int compare_1d_cplx(int n, fftw_complex *ref, fftw_complex *arr, double eps) {
     return status;
 }
 
+int compare_2d_real(int rows, int cols, double *ref, double *arr, double eps) {
+    int status = 0, index;
+    double delta;
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            printf("compare (%d,%d) (shape = %dx%d)\n", i, j, rows, cols);
+
+            index = i * cols + j;
+
+            delta = arr[index] - ref[index];
+
+            if (fabs(delta) < eps) {
+                printf("  real ok (delta = %g)\n", delta);
+            } else {
+                printf("  real: expected %g, got %g (delta = %g)\n", ref[index],
+                        arr[index], delta);
+                status = 1;
+            }
+        }
+    }
+
+    if (status == 0) {
+        printf("=> all ok\n");
+    } else {
+        printf("=> errors\n");
+    }
+
+    return status;
+}
+
+int compare_2d_cplx(int rows, int cols, fftw_complex *ref, fftw_complex *arr,
+        double eps) {
+    int status = 0, index;
+    double delta_real, delta_imag;
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            printf("compare (%d,%d) (shape = %dx%d)\n", i, j, rows, cols);
+
+            index = i * cols + j;
+
+            delta_real = creal(arr[index]) - creal(ref[index]);
+            delta_imag = cimag(arr[index]) - cimag(ref[index]);
+
+            if (fabs(delta_real) < eps) {
+                printf("  real ok (delta = %g)\n", delta_real);
+            } else {
+                printf("  real: expected %g, got %g (delta = %g)\n",
+                        creal(ref[index]), creal(arr[index]), delta_real);
+                status = 1;
+            }
+
+            if (fabs(delta_imag) < eps) {
+                printf("  imag ok (delta = %g)\n", delta_imag);
+            } else {
+                printf("  imag: expected %g, got %g (delta = %g)\n",
+                        cimag(ref[index]), cimag(arr[index]), delta_imag);
+                status = 1;
+            }
+        }
+    }
+
+    if (status == 0) {
+        printf("=> all ok\n");
+    } else {
+        printf("=> errors\n");
+    }
+
+    return status;
+}
+
 void dump_1d_real(char* filename, int n, double *arr) {
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -109,6 +201,48 @@ void dump_1d_cplx(char* filename, int n, fftw_complex *arr) {
 
     for (int i = 0; i < n; ++i) {
         fprintf(fp, "%+6.5f %+6.5f\n", creal(arr[i]), cimag(arr[i]));
+    }
+
+    fclose(fp);
+}
+
+void dump_2d_real(char* filename, int rows, int cols, double *arr) {
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) {
+        printf("error: could not open file %s for writing\n", filename);
+        return;
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            fprintf(fp, "%+6.5f ", arr[i * cols + j]);
+        }
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+}
+
+// using numpy format: matrix of (<real>+<cplx>j)
+void dump_2d_cplx(char* filename, int rows, int cols, fftw_complex *arr) {
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL) {
+        printf("error: could not open file %s for writing\n", filename);
+        return;
+    }
+
+    int index;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            index = i * cols + j;
+
+            if (cimag(arr[index]) < 0) {
+                fprintf(fp, "(%+6.5f%+6.5fj) ", creal(arr[index]), cimag(arr[index]));
+            } else {
+                fprintf(fp, "(%+6.5f+%6.5fj) ", creal(arr[index]), cimag(arr[index]));
+            }
+        }
+        fprintf(fp, "\n");
     }
 
     fclose(fp);
