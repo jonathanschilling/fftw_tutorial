@@ -18,8 +18,6 @@ void test_1d_redft00() {
     fftw_complex *out_logical = fftw_alloc_complex(N);
 
     fftw_plan p = fftw_plan_r2r_1d(n, in, out, FFTW_REDFT00, FFTW_ESTIMATE);
-    fftw_plan p_logical = fftw_plan_dft_1d(N, in_logical, out_logical,
-    FFTW_FORWARD, FFTW_ESTIMATE);
 
     fill_random_1d_real(n, in);
 
@@ -36,8 +34,12 @@ void test_1d_redft00() {
     dump_1d_real("test_1d_redft00_in.dat", n, in);
     dump_1d_cplx("test_1d_redft00_in_logical.dat", N, in_logical);
 
+    // manual implementation of logically-equivalent DFT
+    double a = 0.0;
+    double b = 0.0;
+    dft_1d_cplx(N, in_logical, out_logical, a, b);
+
     fftw_execute(p);
-    fftw_execute(p_logical);
 
     dump_1d_real("test_1d_redft00_out.dat", n, out);
     dump_1d_cplx("test_1d_redft00_out_logical.dat", N, out_logical);
@@ -59,7 +61,7 @@ void test_1d_redft00() {
     // 2. first n values should have identical real values
     double delta;
     for (int i = 0; i < n; ++i) {
-        delta = out_logical[i] - out[i];
+        delta = creal(out_logical[i]) - out[i];
         if (fabs(delta) > eps) {
             printf("error: delta of [%d] is %g\n", i, delta);
             status = 1;
@@ -70,7 +72,7 @@ void test_1d_redft00() {
 
     // 3. even symmetry of output values around n-1
     for (int i = 0; i < n - 2; ++i) {
-        delta = out_logical[n + i] - out[n - 2 - i];
+        delta = creal(out_logical[n + i]) - out[n - 2 - i];
         if (fabs(delta) > eps) {
             printf("error: delta of [%d] is %g\n", n + i, delta);
             status = 1;
@@ -86,7 +88,6 @@ void test_1d_redft00() {
     }
 
     fftw_destroy_plan(p);
-    fftw_destroy_plan(p_logical);
     fftw_free(in);
     fftw_free(in_logical);
     fftw_free(out);

@@ -110,6 +110,21 @@ void dump_1d_cplx(char* filename, int n, fftw_complex *arr) {
     fclose(fp);
 }
 
+// manual implementation of a general DFT (shift and non-linear phase)
+// formula from https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase) (accessed 2021-03-23)
+// a: shift of input
+// b: shift of output
+void dft_1d_cplx(int n, fftw_complex *in, fftw_complex *out, double a, double b) {
+    double phi;
+    for (int k = 0; k < n; ++k) {
+        out[k] = 0.0;
+        for (int j = 0; j < n; ++j) {
+            phi = -2.0 * M_PI * (k + b) * (j + a) / ((double) n);
+            out[k] += in[j] * cexp(I * phi);
+        }
+    }
+}
+
 //
 //int compare_2d_cplx(int n_1, int n_2, fftw_complex *out, fftw_complex *ref_out,
 //        double eps) {
