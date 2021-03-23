@@ -5,6 +5,22 @@ This is a basic C project (Makefile, but also for the Eclipse IDE) I use for exp
 One- and two-dimensional discrete Fourier transforms (DFTs) of random data are computed using both FFTW and straight-forward naive algorithms
 in order to illustrate explicitly what kind of symmetries and scaling properties FFTW implies in its inputs and outputs.
 
+## Table of Contents:
+1. [One-Dimensional Examples](https://github.com/jonathanschilling/fftw_tutorial#one-dimensional-examples)
+   1. [1D complex-to-complex](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-complex)
+   2. [1D complex-to-real and real-to-complex](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-real-and-real-to-complex)
+   3. [1D real-to-real](https://github.com/jonathanschilling/fftw_tutorial#1d-real-to-real)
+      1. [REDFT00 (DCT-I)](https://github.com/jonathanschilling/fftw_tutorial#redft00-dct-i)
+      2. [REDFT10 (DCT-II)](https://github.com/jonathanschilling/fftw_tutorial#redft10-dct-ii)
+      3. [REDFT01 (DCT-III)](https://github.com/jonathanschilling/fftw_tutorial#redft01-dct-iii)
+      4. [REDFT11 (DCT-IV)](https://github.com/jonathanschilling/fftw_tutorial#redft11-dct-iv)
+      5. [RODFT00 (DST-I)](https://github.com/jonathanschilling/fftw_tutorial#rodft00-dst-i)
+      6. [RODFT10 (DST-II)](https://github.com/jonathanschilling/fftw_tutorial#rodft10-dst-ii)
+      7. [RODFT01 (DST-III)](https://github.com/jonathanschilling/fftw_tutorial#rodft01-dst-iii)
+      8. [RODFT11 (DST-IV)](https://github.com/jonathanschilling/fftw_tutorial#rodft11-dst-iv)
+   4. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
+   5. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
+
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
 
