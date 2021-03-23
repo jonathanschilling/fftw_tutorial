@@ -22,13 +22,16 @@ void test_1d_rodft00() {
     fill_random_1d_real(n, in);
 
     // the first half of the array is identical
+    // except the first 0 (and the rest of the array being shifted)
+    in_logical[0] = 0.0;
     for (int i = 0; i < n; ++i) {
-        in_logical[i] = in[i];
+        in_logical[i + 1] = in[i];
     }
 
-    // second half is filled according to even symmetry around n-1
-    for (int i = 0; i < n - 2; ++i) {
-        in_logical[n + i] = in[n - 2 - i];
+    // second half is filled according to odd symmetry around (n+1)
+    in_logical[n + 1] = 0.0;
+    for (int i = 0; i < n; ++i) {
+        in_logical[n + 2 + i] = -in[n - 1 - i];
     }
 
     dump_1d_real("test_1d_rodft00_in.dat", n, in);
@@ -50,34 +53,50 @@ void test_1d_rodft00() {
 
     // 1. logically equivalent output should be purely real-valued
     for (int i = 0; i < N; ++i) {
-        if (fabs(cimag(out_logical[i])) > eps) {
-            printf("error: imag of [%d] is %g\n", i, cimag(out_logical[i]));
+        if (fabs(creal(out_logical[i])) > eps) {
+            printf("error: real of [%d] is %g\n", i, creal(out_logical[i]));
             status = 1;
         } else {
-            printf("imag of [%d] is %g\n", i, cimag(out_logical[i]));
+            printf("real of [%d] is %g\n", i, creal(out_logical[i]));
         }
     }
 
-    // 2. first n values should have identical real values
+    // 2. odd symmetry about 0 implies that first entry should be zero
+    if (fabs(cimag(out_logical[0])) > eps) {
+        printf("error: delta of [%d] is %g\n", 0, -cimag(out_logical[0]));
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", 0, -cimag(out_logical[0]));
+    }
+
+    // 3. first n values should have the output of RODFT00 in the negative imaginary
+    // with one index offset to account for the first zero in the input
     double delta;
     for (int i = 0; i < n; ++i) {
-        delta = creal(out_logical[i]) - out[i];
+        delta = -cimag(out_logical[i + 1]) - out[i];
         if (fabs(delta) > eps) {
-            printf("error: delta of [%d] is %g\n", i, delta);
+            printf("error: delta of [%d] is %g\n", i + 1, delta);
             status = 1;
         } else {
-            printf("match of [%d] (delta=%g)\n", i, delta);
+            printf("match of [%d] (delta=%g)\n", i + 1, delta);
         }
     }
 
-    // 3. even symmetry of output values around n-1
-    for (int i = 0; i < n - 2; ++i) {
-        delta = creal(out_logical[n + i]) - out[n - 2 - i];
+    // 4. odd symmetry of output values around (n+1)
+    if (fabs(cimag(out_logical[n + 1])) > eps) {
+        printf("error: delta of [%d] is %g\n", n + 1,
+                -cimag(out_logical[n + 1]));
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n + 1, -cimag(out_logical[n + 1]));
+    }
+    for (int i = 0; i < n; ++i) {
+        delta = -cimag(out_logical[n + 2 + i]) - (-out[n - 1 - i]);
         if (fabs(delta) > eps) {
-            printf("error: delta of [%d] is %g\n", n + i, delta);
+            printf("error: delta of [%d] is %g\n", n + 2 + i, delta);
             status = 1;
         } else {
-            printf("match of [%d] (delta=%g)\n", n + i, delta);
+            printf("match of [%d] (delta=%g)\n", n + 2 + i, delta);
         }
     }
 
