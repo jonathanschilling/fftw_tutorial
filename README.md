@@ -255,6 +255,12 @@ Here is a quick overview table to indicate the assumed symmetries in the input a
 | RODFT01 | `a b c d  ` | `a b c d  c  b  a  0` |
 | RODFT11 | `a b c d  ` | `a b c d  d  c  b  a` |
 
+For the DCTs, please also consider https://en.wikipedia.org/wiki/Discrete_cosine_transform#Formal_definition
+and in particular https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg .
+
+For the DSTs, pleasealso consider https://en.wikipedia.org/wiki/Discrete_sine_transform#Definition
+and in particular https://upload.wikimedia.org/wikipedia/commons/3/31/DST-symmetries.svg .
+
 #### REDFT00 (DCT-I)
 
 In case of the real-valued even-parity DFT with no shifts in either input or output array (REDFT00),
@@ -529,8 +535,71 @@ The input array is assumed to have even symmetry around *j=-0.5* and odd symmetr
 
 ![REDFT11](img/redft11.png)
 
-For the DCTs, also consider https://en.wikipedia.org/wiki/Discrete_cosine_transform#Formal_definition
-and in particular https://upload.wikimedia.org/wikipedia/commons/a/ae/DCT-symmetries.svg .
+In order to demonstrate the use of this method,
+the logically equivalent DFT input is filled appropriately and its output is checked against `REDFT11`.
+In the following code, `in` is the input array (size `n`) given to `REDFT11`
+and `in_logical` is the (complex-valued) input array (size *N*) handed to a
+[generic 1D DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Generalized_DFT_(shifted_and_non-linear_phase)).
+Similarly, `out` is the output array (size `n`) from `REDFT11`
+and `out_logical` is the output array (size *N*) from a generic 1D DFT.
+
+Here is how the symmetric input is generated:
+
+```C
+// the first half of the array is identical
+for (int i = 0; i < n; ++i) {
+    in_logical[i] = in[i];
+}
+
+// second half is filled according to odd symmetry around n-0.5
+for (int i = 0; i < n; ++i) {
+    in_logical[n + i] = -in[n - 1 - i];
+}
+```
+
+The checks are a little bit more involved.
+The logically equivalent DFT output should be purely real-valued:
+
+```C
+for (int i = 0; i < N; ++i) {
+    if (fabs(cimag(out_logical[i])) > eps) {
+        printf("error: imag of [%d] is %g\n", i, cimag(out_logical[i]));
+        status = 1;
+    } else {
+        printf("imag of [%d] is %g\n", i, cimag(out_logical[i]));
+    }
+}
+```
+
+The first `n` values should be identical between `REDFT11` and the generalized DFT:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = creal(out_logical[i]) - out[i];
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", i, delta);
+    }
+}
+```
+
+The remaining values should have odd symmetry around `n-0.5`:
+
+```C
+for (int i = 0; i < n; ++i) {
+    delta = creal(out_logical[n + i]) - (-out[n - 1 - i]);
+    if (fabs(delta) > eps) {
+        printf("error: delta of [%d] is %g\n", n + i, delta);
+        status = 1;
+    } else {
+        printf("match of [%d] (delta=%g)\n", n + i, delta);
+    }
+}
+```
+
+The full example can be found in [`src/test_1d_redft11.c`](src/test_1d_redft11.c).
 
 #### RODFT00 (DST-I)
 
@@ -594,9 +663,6 @@ The input array is assumed to have odd symmetry around *j=-0.5* and even symmetr
 
 ![RODFT11](img/rodft11.png)
 
-For the DSTs, consider also https://en.wikipedia.org/wiki/Discrete_sine_transform#Definition
-and in particular https://upload.wikimedia.org/wikipedia/commons/3/31/DST-symmetries.svg .
-
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
@@ -626,4 +692,5 @@ The following operations are supported:
  * fill with random numbers between 0 and 1: e.g. `fill_random_1d_cplx`
  * element-wise check for approximate equality: e.g. `compare_1d_real`
  * write into a text file: e.g. `dump_1d_real`
+ * compute generalized DFT (shift and non-linear phase): `dft_1d_cplx`
 
