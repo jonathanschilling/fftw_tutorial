@@ -11,7 +11,8 @@ TARGETS=test_1d_c2c \
         test_1d_redft00 \
         test_1d_redft10 \
         test_1d_redft01 \
-        test_1d_redft11
+        test_1d_redft11 \
+        test_1d_rodft00
 
 all: $(TARGETS)
 
