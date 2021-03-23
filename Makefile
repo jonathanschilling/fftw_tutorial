@@ -22,7 +22,7 @@ TARGETS=test_util \
 all: $(TARGETS)
 
 clean:
-	rm -f $(TARGETS)
+	rm -f test_*
 
 test: $(addsuffix _test,$(TARGETS))
 
