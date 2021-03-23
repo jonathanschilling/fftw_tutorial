@@ -51,7 +51,7 @@ void test_1d_rodft00() {
     double eps = 1e-12;
     int status = 0;
 
-    // 1. logically equivalent output should be purely real-valued
+    // 1. logically equivalent output should be purely imaginary-valued
     for (int i = 0; i < N; ++i) {
         if (fabs(creal(out_logical[i])) > eps) {
             printf("error: real of [%d] is %g\n", i, creal(out_logical[i]));
@@ -69,7 +69,7 @@ void test_1d_rodft00() {
         printf("match of [%d] (delta=%g)\n", 0, -cimag(out_logical[0]));
     }
 
-    // 3. first n values should have the output of RODFT00 in the negative imaginary
+    // 3. next n values should have the output of RODFT00 in the negative imaginary
     // with one index offset to account for the first zero in the input
     double delta;
     for (int i = 0; i < n; ++i) {
