@@ -29,7 +29,7 @@ clean:
 
 test: $(addsuffix _test,$(TARGETS))
 
-%_test:
+%_test: %
 	./$*
 
 $(TARGETS): % : src/%.c src/util.h
