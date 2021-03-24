@@ -1203,7 +1203,9 @@ FFTW's two-dimensional real-to-real DFTs can be used to compute the products on 
 of above equation and two such DFts have to be added together to arrive at the true
 two-dimensional DFT with the Fourier kernel as on the left-hand side of above equation.
 
-In the following, two examples are presented, namely a mixed even-odd transform and an example with two equal transforms.
+In the following, two examples are presented.
+First, a mixed `r2r` DFT with `REDFT10` in the first dimension and `RODFT10` in the second dimension is computed.
+Second, a true two-dimensional DFT in computed using two FFTW calls.
 
 #### 2D REDFT10+RODFT10
 
@@ -1228,7 +1230,7 @@ ref_out[idx_k] += in[idx_j] * basis_0 * basis_1;
 
 The full example can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e10_o10.c).
 
-#### 2D REDFT10+REDFT10
+#### True 2D DFT using FFTW
 
 
 
