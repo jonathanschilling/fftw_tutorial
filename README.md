@@ -1210,7 +1210,23 @@ In the following, two examples are presented, namely a mixed even-odd transform 
 An example of a two-dimensional transform is presented
 with `REDFT10` in the first dimension and `RODFT10` in the second dimension.
 
-The code can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e10_o10.c).
+The basis functions for the two dimensions are computed separately:
+
+```C
+// REDFT10 in first dimension
+basis_0 = 2.0 * cos(M_PI * (j0 + 0.5) * k0 / ((double) n0));
+
+// RODFT10 in second dimension
+basis_1 = 2.0 * sin(M_PI * (j1 + 0.5) * (k1 + 1.0) / ((double) n1));
+```
+
+The contribution to the output array is computed as follows:
+
+```C
+ref_out[idx_k] += in[idx_j] * basis_0 * basis_1;
+```
+
+The full example can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e10_o10.c).
 
 #### 2D REDFT10+REDFT10
 
