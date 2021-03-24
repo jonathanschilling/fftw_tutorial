@@ -1232,7 +1232,15 @@ The full example can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e
 
 #### True 2D DFT using FFTW
 
+A true two-dimensional DFT is computed using FFTW in this example.
+The kernel function is `cos(pi*(j0*k0/n0 + j1*k1/n1))`
+and this splits up into one 2d `r2r` transform with `cos(pi*j0*k0/n0) * cos(pi*j1*k1/n1)`
+and one `r2r` transform with `sin(pi*j0*k0/n0) * sin(pi*j1*k1/n1)`,
+which are added together in the end.
 
+
+
+The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
