@@ -1205,11 +1205,14 @@ two-dimensional DFT with the Fourier kernel as on the left-hand side of above eq
 
 In the following, two examples are presented, namely a mixed even-odd transform and an example with two equal transforms.
 
-#### 2D REDFT01+RODFT01
+#### 2D REDFT10+RODFT10
 
+An example of a two-dimensional transform is presented
+with `REDFT10` in the first dimension and `RODFT10` in the second dimension.
 
+The code can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e10_o10.c).
 
-#### 2D REDFT01+REDFT01
+#### 2D REDFT10+REDFT10
 
 
 
@@ -1221,7 +1224,7 @@ int nOut = n/2+1;
 double *in = fftw_alloc_real(n);
 fftw_complex *out = fftw_alloc_complex(nOut);
 ```
-where `N` is the real-space size of the DFT and `outN` is the number of Fourier coefficients resulting from a `r2c` DFT.
+where `n` is the real-space size of the DFT and `nOut` is the number of Fourier coefficients resulting from a `r2c` DFT.
 The corresponding "raw" allocation code would look like this:
 ```C
 double *in = (double*) fftw_malloc(sizeof(double) * n);
