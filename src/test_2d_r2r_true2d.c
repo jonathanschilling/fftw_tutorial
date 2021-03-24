@@ -33,6 +33,7 @@ int test_2d_r2r_true2d(int n0, int n1) {
             in1[idx_j] = 0.0;
             in2[idx_j] = 0.0;
 
+            // input data for REDFT01
             double factor = 1.0;
             if (j0 > 0) {
                 factor *= 0.5;
@@ -43,7 +44,8 @@ int test_2d_r2r_true2d(int n0, int n1) {
 
             in1[idx_j] = factor * in[idx_j];
 
-
+            // input data for RODFT01
+            // need to shift indices by -1 due to (j+1) in definition
             if (j0 > 0 || j1 > 0) {
                 int my_j0 = j0 > 0 ? j0-1 : j0;
                 int my_j1 = j1 > 0 ? j1-1 : j1;
