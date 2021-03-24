@@ -1084,6 +1084,63 @@ via addition of the corresponding phases in the exponent of the complex-valued b
 
 The code can be found in [`src/test_2d_c2c.c`](src/test_2d_c2c.c).
 
+### 2D complex-to-real
+
+The two-dimensional `c2r` transform can make use of the Hermitian symmetry
+([see above](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-real-and-real-to-complex))
+to reduce the computational work in the *last* dimension of the input data by about a factor of 2.
+The input data thus has to have a shape of (`n0`x`n1_cplx`) wheren`n1_cplx = n1/2+1` (division by 2 rounded down)
+and (`n0`x`n1`) is the logical size of the DFT and also the size of the real-valued output arrays.
+
+The arrays are allocated as follows:
+
+```C
+fftw_complex *in = fftw_alloc_complex(n0 * n1_cplx);
+double *out = fftw_alloc_real(n0 * n1);
+double *ref_out = fftw_alloc_real(n0 * n1);
+```
+
+The manual transform that is computed for reference is done as follows:
+
+```C
+int idx_k, idx_j;
+double phi, real;
+for (int k0 = 0; k0 < n0; ++k0) {
+    for (int k1 = 0; k1 < n1; ++k1) {
+        idx_k = k0 * n1 + k1;
+
+        ref_out[idx_k] = 0.0;
+
+        for (int j0 = 0; j0 < n0; ++j0) {
+            for (int j1 = 0; j1 < n1_cplx; ++j1) {
+                idx_j = j0 * n1_cplx + j1;
+
+                phi = 2.0 * M_PI * (  k0 * j0 / ((double) n0)
+                                    + k1 * j1 / ((double) n1) );
+
+                // output is purely real,
+                // so compute only real part
+                real = creal(in[idx_j]) * cos(phi) - cimag(in[idx_j]) * sin(phi);
+
+                ref_out[idx_k] += real;
+
+                // add symmetric entries twice
+                // n1/2+n1%2 is n1/2 if n1 is even
+                // and it is n1/2+1 if n1 is odd
+                if (j1 > 0 && j1 < n1 / 2 + n1 % 2) {
+                    ref_out[idx_k] += real;
+                }
+            }
+        }
+    }
+}
+```
+
+The full example can be found in [`src/test_2d_c2r.c`](src/test_2d_c2r.c).
+
+### 2D real-to-complex
+
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
