@@ -1183,6 +1183,33 @@ for (int k0 = 0; k0 < n0; ++k0) {
 
 The full example can be found in [`src/test_2d_r2c.c`](src/test_2d_r2c.c).
 
+### 2D real-to-real
+
+Two-dimensional real-to-real DFTs can be defined with any of the one-dimensional transforms
+in each of the two dimensions. This implies that for eight one-dimensional transforms
+there is a total of 64 possible combinations that exceed the scope of this tutorial
+and also do not contribute much insight.
+
+Note that FFTW computes the *separable product* of the transforms along each dimension
+and not the true multi-dimensional DFT.
+This can be understood intuitively by the addition formulas for sine and cosine:
+
+![Addition formulas for sine and cosine](eqn/sin_cos_add.png)
+
+FFTW's two-dimensional real-to-real DFTs can be used to compute the products on the right-hand side
+of above equation and two such DFts have to be added together to arrive at the true
+two-dimensional DFT with the Fourier kernel as on the left-hand side of above equation.
+
+In the following, two examples are presented, namely a mixed even-odd transform and an example with two equal transforms.
+
+#### 2D REDFT01+RODFT01
+
+
+
+#### 2D REDFT01+REDFT01
+
+
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
