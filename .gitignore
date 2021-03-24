@@ -11,6 +11,16 @@ test_1d_rodft10
 test_1d_rodft01
 test_1d_rodft11
 test_2d_c2c
+test_2d_c2r
+test_2d_r2c
+test_2d_redft00
+test_2d_redft10
+test_2d_redft01
+test_2d_redft11
+test_2d_rodft00
+test_2d_rodft10
+test_2d_rodft01
+test_2d_rodft11
 
 # test output data
 test_1d_redft00_*
@@ -21,6 +31,14 @@ test_1d_rodft00_*
 test_1d_rodft10_*
 test_1d_rodft01_*
 test_1d_rodft11_*
+test_2d_redft00_*
+test_2d_redft10_*
+test_2d_redft01_*
+test_2d_redft11_*
+test_2d_rodft00_*
+test_2d_rodft10_*
+test_2d_rodft01_*
+test_2d_rodft11_*
 
 # auxiliary tests
 test_util
