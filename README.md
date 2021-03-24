@@ -24,7 +24,7 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
    3. [2D real-to-complex](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-complex)
    4. [2D real-to-real](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-real)
       1. [2D REDFT10+RODFT10](https://github.com/jonathanschilling/fftw_tutorial#2d-redft10rodft10)
-      2. [2D REDFT10+REDFT10](https://github.com/jonathanschilling/fftw_tutorial#2d-redft10redft10)
+      2. [True 2D DFT using FFTW](https://github.com/jonathanschilling/fftw_tutorial#true-2d-dft-using-fftw)
 3. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
 4. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
 
@@ -1232,7 +1232,15 @@ The full example can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e
 
 #### True 2D DFT using FFTW
 
+A true two-dimensional DFT is computed using FFTW in this example.
+The kernel function is `cos(pi*(j0*k0/n0 + j1*k1/n1))`
+and this splits up into one 2d `r2r` transform with `cos(pi*j0*k0/n0) * cos(pi*j1*k1/n1)`
+and one `r2r` transform with `sin(pi*j0*k0/n0) * sin(pi*j1*k1/n1)`,
+which are added together in the end.
 
+
+
+The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
