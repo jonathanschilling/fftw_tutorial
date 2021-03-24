@@ -26,5 +26,7 @@ int main(int argc, char** argv) {
     //        [1.-2.j, 1.-1.j, 1.+0.j, 1.+1.j],
     //        [2.-2.j, 2.-1.j, 2.+0.j, 2.+1.j]])
 
+    fftw_free(arr);
+
     return 0;
 }

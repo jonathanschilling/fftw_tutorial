@@ -59,6 +59,11 @@ int test_2d_c2r(int n0, int n1) {
     double eps = 1.0e-12;
     int status = compare_2d_real(n0, n1, ref_out, out, eps);
 
+    fftw_destroy_plan(p);
+    fftw_free(in);
+    fftw_free(out);
+    fftw_free(ref_out);
+
     return status;
 }
 

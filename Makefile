@@ -19,7 +19,8 @@ TARGETS=test_util \
         test_1d_rodft11 \
         test_2d_c2c \
         test_2d_c2r \
-        test_2d_r2c
+        test_2d_r2c \
+        test_2d_r2r_e10_o10
 
 all: $(TARGETS)
 

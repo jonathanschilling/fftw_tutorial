@@ -48,6 +48,11 @@ int test_2d_r2c(int n0, int n1) {
     double eps = 1.0e-12;
     int status = compare_2d_cplx(n0, n1_cplx, ref_out, out, eps);
 
+    fftw_destroy_plan(p);
+    fftw_free(in);
+    fftw_free(out);
+    fftw_free(ref_out);
+
     return status;
 }
 
