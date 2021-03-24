@@ -1145,8 +1145,8 @@ The full example can be found in [`src/test_2d_c2r.c`](src/test_2d_c2r.c).
 The two-dimensional `r2c` transform can make use of the Hermitian symmetry
 ([see above](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-real-and-real-to-complex))
 to reduce the computational work in the *last* dimension of the output data by about a factor of 2.
-The output data thus has to have a shape of (`n0`x`n1_cplx`) where `n1_cplx = n1/2+1` (division by 2 rounded down)
-and (`n0`x`n1`) is the logical size of the DFT and also the size of the real-valued input array.
+The real-valued input data has to have a shape of (`n0`x`n1`), which is also the logical size of the DFT.
+The output data then has a shape of (`n0`x`n1_cplx`) where `n1_cplx = n1/2+1` (division by 2 rounded down).
 
 The arrays are allocated as follows:
 
