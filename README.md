@@ -20,6 +20,8 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
       8. [RODFT11 (DST-IV)](https://github.com/jonathanschilling/fftw_tutorial#rodft11-dst-iv)
 2. [Two-Dimensional Examples](https://github.com/jonathanschilling/fftw_tutorial#two-dimensional-examples)
    1. [2D complex-to-complex](https://github.com/jonathanschilling/fftw_tutorial#2d-complex-to-complex)
+   2. [2D complex-to-real](https://github.com/jonathanschilling/fftw_tutorial#2d-complex-to-real)
+   3. [2D real-to-complex](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-complex)
 3. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
 4. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
 
