@@ -24,7 +24,7 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
    3. [2D real-to-complex](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-complex)
    4. [2D real-to-real](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-real)
       1. [2D REDFT10+RODFT10](https://github.com/jonathanschilling/fftw_tutorial#2d-redft10rodft10)
-      2. [2D REDFT10+REDFT10](https://github.com/jonathanschilling/fftw_tutorial#2d-redft10redft10)
+      2. [True 2D DFT using FFTW](https://github.com/jonathanschilling/fftw_tutorial#true-2d-dft-using-fftw)
 3. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
 4. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
 
