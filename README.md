@@ -1091,7 +1091,7 @@ The code can be found in [`src/test_2d_c2c.c`](src/test_2d_c2c.c).
 The two-dimensional `c2r` transform can make use of the Hermitian symmetry
 ([see above](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-real-and-real-to-complex))
 to reduce the computational work in the *last* dimension of the input data by about a factor of 2.
-The input data thus has to have a shape of (`n0`x`n1_cplx`) wheren`n1_cplx = n1/2+1` (division by 2 rounded down)
+The input data thus has to have a shape of (`n0`x`n1_cplx`) where `n1_cplx = n1/2+1` (division by 2 rounded down)
 and (`n0`x`n1`) is the logical size of the DFT and also the size of the real-valued output arrays.
 
 The arrays are allocated as follows:
@@ -1142,6 +1142,46 @@ The full example can be found in [`src/test_2d_c2r.c`](src/test_2d_c2r.c).
 
 ### 2D real-to-complex
 
+The two-dimensional `r2c` transform can make use of the Hermitian symmetry
+([see above](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-real-and-real-to-complex))
+to reduce the computational work in the *last* dimension of the output data by about a factor of 2.
+The output data thus has to have a shape of (`n0`x`n1_cplx`) where `n1_cplx = n1/2+1` (division by 2 rounded down)
+and (`n0`x`n1`) is the logical size of the DFT and also the size of the real-valued input array.
+
+The arrays are allocated as follows:
+
+```C
+double *in = fftw_alloc_real(n0 * n1);
+fftw_complex *out = fftw_alloc_complex(n0 * n1_cplx);
+fftw_complex *ref_out = fftw_alloc_complex(n0 * n1_cplx);
+```
+
+The manual transform that is computed for reference is done as follows:
+
+```C
+int idx_k, idx_j;
+double phi;
+for (int k0 = 0; k0 < n0; ++k0) {
+    for (int k1 = 0; k1 < n1_cplx; ++k1) {
+        idx_k = k0 * n1_cplx + k1;
+
+        ref_out[idx_k] = 0.0;
+
+        for (int j0 = 0; j0 < n0; ++j0) {
+            for (int j1 = 0; j1 < n1; ++j1) {
+                idx_j = j0 * n1 + j1;
+
+                phi = -2.0 * M_PI * (  k0 * j0 / ((double) n0)
+                                     + k1 * j1 / ((double) n1) );
+
+                ref_out[idx_k] += in[idx_j] * cexp(I*phi);
+            }
+        }
+    }
+}
+```
+
+The full example can be found in [`src/test_2d_r2c.c`](src/test_2d_r2c.c).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
