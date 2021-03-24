@@ -15,7 +15,8 @@ all: complex_dft.png \
      rodft00.png \
      rodft10.png \
      rodft01.png \
-     rodft11.png
+     rodft11.png \
+     sin_cos_add.png
 
 clean:
 	rm *.png
