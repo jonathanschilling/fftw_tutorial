@@ -42,7 +42,6 @@ void app_magn_axis(int n_zeta) {
 
     // fill second half of output array by mirroring about last entry
     for (int n=0; n<nCplx; ++n) {
-        printf("%d --> %d\n", n, n_zeta-1-n);
         out[n_zeta - 1 - n] = out[n];
     }
 
