@@ -17,8 +17,12 @@ void app_magn_axis(int n_zeta) {
             -6.57e-05, 2.27e-06, -0.0000928, -5.32e-07, 6.67e-05, 5.72e-05,
             2.38e-05 };
 
-    int nCplx = n_zeta/2+1;
-    if (nCplx<ntor+1) {
+    // sin-parity Fourier coefficients for magnetic axis
+    double R_ax_sin[13] = { 0.0, 0.0727, 6.34e-03, 5.84e-03, 9.77e-04, 5.32e-05,
+            8.48e-05, 5.57e-05, 5.56e-05, 5.53e-06, 7.74e-07, 1.03e-05, 8.75e-06 };
+
+    int nCplx = n_zeta / 2 + 1;
+    if (nCplx < ntor + 1) {
         printf("error: number of grid points too low.\n");
         return;
     }
@@ -29,12 +33,12 @@ void app_magn_axis(int n_zeta) {
     fftw_plan p = fftw_plan_dft_c2r_1d(n_zeta, in, out, FFTW_ESTIMATE);
 
     // copy over available Fourier coefficients
-    for (int n=0; n<=ntor; ++n) {
-        in[n] = R_ax_cos[n];
+    for (int n = 0; n <= ntor; ++n) {
+        in[n] = R_ax_cos[n] - I * R_ax_sin[n];
     }
 
     // zero out remaining input Fourier coefficients
-    for (int n=ntor+1; n<nCplx; ++n) {
+    for (int n = ntor + 1; n < nCplx; ++n) {
         in[n] = 0.0;
     }
 
