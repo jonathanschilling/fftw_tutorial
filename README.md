@@ -1404,7 +1404,7 @@ The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_tr
 ## Real-world applications
 
 In this section, FFTW is used to evaluate the geometry
-of the magnetic axis and a flux surface of a stellarator ideal magnetohydrodynamic plasma equilibrium
+of the magnetic axis and a flux surface of a stellarator ideal magnetohydrodynamic (MHD) plasma equilibrium
 as computed by the [Variational Moments Equilibrium Code (VMEC)](https://doi.org/10.1016/0010-4655(86)90058-5).
 
 Here is a plot of a few of the flux surfaces of the [Wendelstein 7-X](https://www.ipp.mpg.de/w7x) stellarator:
@@ -1434,11 +1434,15 @@ Inserting this into the Fourier series for, e.g., the *R* coordinate leads to a 
 
 ![magnetic axis R via DFT](eqn/magn_axis_dft.png)
 
-
-
-
-
-
+Note that typically the number of Fourier coefficients included in computation
+of the MHD equilibrium is (much) less than the number of grid points, i.e., *N* < `n_ζ`.
+The physics happens in real space and certains aspects of a computation
+might require a fine spatial resolution (i.e., many grid points in real space) to accurately
+resolve, e.g., gradients while the overall complexity of the solution
+(gouverned by the number of included Fourier coefficients) does not need to be extremely high.
+FFTW only supports (logically) equally-sized input and output arrays and thus,
+if less Fourier coefficients than desired grid points are to be used,
+the Fourier coefficient array needs to be filled with zeros in the remaining area.
 
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
