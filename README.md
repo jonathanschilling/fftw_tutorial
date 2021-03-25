@@ -1546,7 +1546,6 @@ is filled by applying the even symmetry of the output data implicitly used in `R
 
 ```C
 for (int n=0; n<nCplx; ++n) {
-    printf("%d --> %d\n", n, n_zeta-1-n);
     out[n_zeta - 1 - n] = out[n];
 }
 ```
