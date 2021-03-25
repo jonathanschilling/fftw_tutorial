@@ -25,8 +25,11 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
    4. [2D real-to-real](https://github.com/jonathanschilling/fftw_tutorial#2d-real-to-real)
       1. [2D REDFT10+RODFT10](https://github.com/jonathanschilling/fftw_tutorial#2d-redft10rodft10)
       2. [True 2D IDCT using FFTW](https://github.com/jonathanschilling/fftw_tutorial#true-2d-idct-using-fftw)
-3. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
-4. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
+3. [Real-world applications](https://github.com/jonathanschilling/fftw_tutorial#real-world-applications)
+   1. [Geometry of the Magnetic Axis in a Stellarator](https://github.com/jonathanschilling/fftw_tutorial#geometry-of-the-magnetic-axis-in-a-stellarator)
+   2. [Geometry of a Flux Surface in a Stellarator](https://github.com/jonathanschilling/fftw_tutorial#geometry-of-a-flux-surface-in-a-stellarator)
+4. [Allocation of arrays](https://github.com/jonathanschilling/fftw_tutorial#allocation-of-arrays)
+5. [Utility functions](https://github.com/jonathanschilling/fftw_tutorial#utility-functions)
 
 ## One-Dimensional Examples
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
@@ -1404,23 +1407,23 @@ as computed by the [Variational Moments Equilibrium Code (VMEC)](https://doi.org
 ### Geometry of the Magnetic Axis in a Stellarator
 The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT:
 
-
+![full Fourier series for magnetic axis](eqn/magn_axis.png)
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform reduces to one-dimensional IDCTs and IDSTs:
 
-
+![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
 
 ### Geometry of a Flux Surface in a Stellarator
 
 The real-space geometry of the flux surface (a general toroidal surface) is given via a two-dimensional DFT:
 
-
+![full Fourier series for flux surface](eqn/flux_surface.png)
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform reduces to two-dimensional IDCTs and IDSTs:
 
-
+![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
