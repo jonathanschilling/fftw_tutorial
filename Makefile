@@ -21,7 +21,8 @@ TARGETS=test_util \
         test_2d_c2r \
         test_2d_r2c \
         test_2d_r2r_e10_o10 \
-        test_2d_r2r_true2d
+        test_2d_r2r_true2d \
+        app_magn_axis
 
 all: $(TARGETS)
 
