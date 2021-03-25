@@ -14,7 +14,7 @@ void app_magn_axis(int n_zeta) {
 
     // cos-parity Fourier coefficients for R of magnetic axis
     double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 1.21e-3, 4.89e-6, -5.12e-5,
-        -6.57e-5, 2.27e-6, -9.28e-5, -5.32e-7, 6.67e-5, 5.72e-5, 2.38e-5 };
+            -6.57e-5, 2.27e-6, -9.28e-5, -5.32e-7, 6.67e-5, 5.72e-5, 2.38e-5 };
 
     int nCplx = n_zeta / 2;
     if (nCplx < ntor + 1) {
@@ -30,7 +30,7 @@ void app_magn_axis(int n_zeta) {
     // copy over available Fourier coefficients
     in[0] = R_ax_cos[0];
     for (int n = 1; n <= ntor; ++n) {
-        in[n] = R_ax_cos[n];
+        in[n] = 0.5 * R_ax_cos[n];
     }
 
     // zero out remaining input Fourier coefficients
@@ -41,7 +41,7 @@ void app_magn_axis(int n_zeta) {
     fftw_execute(p);
 
     // fill second half of output array by mirroring about last entry
-    for (int n=0; n<nCplx; ++n) {
+    for (int n = 0; n < nCplx; ++n) {
         out[n_zeta - 1 - n] = out[n];
     }
 
