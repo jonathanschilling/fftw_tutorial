@@ -1395,6 +1395,19 @@ for (int k0 = 0; k0 < n0; ++k0) {
 
 The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
+## Real-world application
+
+In this section, FFTW is used to evaluate the geometry of last closed flux surface of a Stellarator
+computed by the [Variational Moments Equilibrium Code (VMEC)](https://doi.org/10.1016/0010-4655(86)90058-5).
+The real-space geometry of this general toroidal surface is given via a two-dimensional DFT:
+
+
+
+Assuming [Stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
+half of the Fourier coefficients can be omitted and the transform reduces to two-dimensional IDCTs and IDSTs:
+
+
+
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
 ```C
