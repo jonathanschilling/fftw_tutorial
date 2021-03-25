@@ -1411,6 +1411,9 @@ Here is a plot of a few of the flux surfaces of the [Wendelstein 7-X](https://ww
 
 ![flux surfaces and magnetic axis of W7-X](img/flux_surfaces_w7x_ref_163_1_10_50_98_cut_small.png)
 
+Nested flux surfaces are shown in grey, red, green and blue.
+The black line indicates the magnetic axis.
+
 ### Geometry of the Magnetic Axis in a Stellarator
 The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT
 [evaluated using real-valued arithmetics](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-complex):
