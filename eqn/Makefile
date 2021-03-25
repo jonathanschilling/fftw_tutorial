@@ -22,7 +22,9 @@ all: complex_dft.png \
      magn_axis.png \
      magn_axis_stellsym.png \
      flux_surface.png \
-     flux_surface_stellsym.png
+     flux_surface_stellsym.png \
+     grid_theta.png \
+     grid_zeta.png
 
 clean:
 	rm *.png
