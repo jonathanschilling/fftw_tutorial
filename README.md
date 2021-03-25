@@ -1408,24 +1408,25 @@ of the magnetic axis and a flux surface of a stellarator ideal magnetohydrodynam
 as computed by the [Variational Moments Equilibrium Code (VMEC)](https://doi.org/10.1016/0010-4655(86)90058-5).
 
 ### Geometry of the Magnetic Axis in a Stellarator
-The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT:
+The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT
+[evaluated using real-valued arithmetics](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-complex):
 
 ![full Fourier series for magnetic axis](eqn/magn_axis.png)
 
 where ζ is the toroidal angle per field period in radians.
 For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
-Conversely, the first unique toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
+Conversely, the first (unique) toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
-half of the Fourier coefficients can be omitted and the transform reduces to one-dimensional IDCTs and IDSTs:
+half of the Fourier coefficients can be omitted and the transform
+reduces to the one-dimensional IDCT and IDST, respectively:
 
 ![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
 
-In either case, one might desire to evaluate the geometry of the magnetic axis at regular intervals in ζ:
+In this example the geometry of the magnetic axis is evaluated at regular intervals in ζ:
 
 ![grid in zeta](eqn/grid_zeta.png)
 
-Here, FFTW can help out!
 
 
 
@@ -1438,22 +1439,21 @@ The real-space geometry of the flux surface (a general toroidal surface) is give
 
 where (θ,ζ) are the poloidal and toroidal angles in radians, respectively.
 For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
-Conversely, the first unique toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
+Conversely, the first (unique) toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
 The poloidal angle-like coordinate θ ranges from 0 to 2π once the short way around the torus (wristband-like).
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
-half of the Fourier coefficients can be omitted and the transform reduces to two-dimensional IDCTs and IDSTs:
+half of the Fourier coefficients can be omitted and the transform reduces to the two-dimensional IDCT and IDST:
 
 ![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
 
-In either case, one might desire to evaluate the geometry of the flux surface
+In this example the geometry of the flux surface is evaluated
 on a regular grid in θ and ζ:
 
 ![grid in zeta](eqn/grid_zeta.png)
 
 ![grid in theta](eqn/grid_theta.png)
 
-Here, FFTW can help out!
 
 
 
