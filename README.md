@@ -1236,16 +1236,159 @@ A true two-dimensional inverse discrete cosine transform is computed using FFTW 
 
 ![True two-dimensional IDCT](eqn/true_2d_idct.png)
 
-FFTW can only compute the separable product of one-dimensional transforms
-for multi-dimensional transform.
+FFTW can only compute the separable product of one-dimensional transforms for multi-dimensional transform.
 Above kernel function thus has to be split up by application of the addition formula for sine and cosine:
 
 ![True two-dimensional IDCT kernel](eqn/true_2d_idct_kernel.png)
 
+The left half of above equation is computed using a two-dimensional `REDFT01`
+and the right half is computed using a two-dimensional `RODFT01`.
+The outputs of these transforms are subtracted from each other to yield the desired result.
 
+First consider the naive implementation in plain `C`.
 
+The input and output arrays are allocated and filled with random data:
 
+```C
+double *in = fftw_alloc_real(n0 * n1);
+double *ref_out = fftw_alloc_real(n0 * n1);
 
+fill_random_2d_real(n0, n1, in);
+```
+
+The two-dimensional IDCT is computed from the input data:
+
+```C
+double basis;
+for (int k0 = 0; k0 < n0; ++k0) {
+    for (int k1 = 0; k1 < n1; ++k1) {
+        idx_k = k0 * n1 + k1;
+
+        ref_out[idx_k] = 0.0;
+
+        for (int j0 = 0; j0 < n0; ++j0) {
+            for (int j1 = 0; j1 < n1; ++j1) {
+                idx_j = j0 * n1 + j1;
+
+                basis = cos(M_PI * (  (k0 + 0.5) * j0 / ((double) n0)
+                                    + (k1 + 0.5) * j1 / ((double) n1) ) );
+
+                ref_out[idx_k] += in[idx_j] * basis;
+            }
+        }
+    }
+}
+```
+
+Next, the same transform is implemented using FFTW.
+
+Separate input and output array are allocated in this educational example:
+
+```C
+double *in1 = fftw_alloc_real(n0 * n1);
+double *in2 = fftw_alloc_real(n0 * n1);
+double *out1 = fftw_alloc_real(n0 * n1);
+double *out2 = fftw_alloc_real(n0 * n1);
+```
+
+The two two-dimensional transforms are planned:
+
+```C
+fftw_plan p1 = fftw_plan_r2r_2d(n0, n1, in1, out1, FFTW_REDFT01, FFTW_REDFT01, FFTW_ESTIMATE);
+fftw_plan p2 = fftw_plan_r2r_2d(n0, n1, in2, out2, FFTW_RODFT01, FFTW_RODFT01, FFTW_ESTIMATE);
+```
+
+The next step is to fill the two input arrays `in1` and `in2` for FFTW
+with appropriate data so that the results of FFTW are equivalent
+to those of the naive implementation presented above.
+This step is not entirely trivial and presented in detail next.
+
+A two-dimensional loop over the input data `in` is set up
+and all inputs to FFTW are initialized to be zero.
+Then, the two input arrays are filled separately.
+
+```C
+for (int j0=0; j0<n0; ++j0) {
+    for (int j1=0; j1<n1; ++j1) {
+        idx_j = j0 * n1 + j1;
+
+        // make sure that all entries are zero
+        in1[idx_j] = 0.0;
+        in2[idx_j] = 0.0;
+        
+        /* fill in1 */
+        
+        /* fill in2 */
+    }
+}
+```
+
+The input data for `REDFT01` has to be multiplied by `0.5`
+for each dimension where the index is above `0` to cancel
+the factor of `2` in the [definition of `REDFT01`](https://github.com/jonathanschilling/fftw_tutorial#redft01-dct-iii)
+for direct correspondence with the desired true two-dimensional IDCT.
+This is the `/* fill in1 */` step in above loop:
+
+```C
+double factor = 1.0;
+if (j0 > 0) {
+    factor *= 0.5;
+}
+if (j1 > 0) {
+    factor *= 0.5;
+}
+
+in1[idx_j] = factor * in[idx_j];
+```
+
+The input data for `RODFT01` also needs to have entries
+multiplied by `0.5` for each dimension in which the index is less than `n-1`
+to cancel the factor of `2` in the [definition of `RODFT01`](https://github.com/jonathanschilling/fftw_tutorial#rodft01-dst-iii)
+for direct correspondence with the desired true two-dimensional IDCT.
+Additionally, the input data needs to be shifted left/down by one index
+due to the `j+1` appearing in the definition of `RODFT01`.
+This is the `/* fill in2 */` step in above loop:
+
+```C
+if (j0 > 0 && j1 > 0) {
+    int my_j0 = j0-1;
+    int my_j1 = j1-1;
+
+    idx_j_2 = my_j0 * n1 + my_j1;
+
+    factor = 1.0;
+    if (my_j0 < n0-1) {
+        factor *= 0.5;
+    }
+    if (my_j1 < n1-1) {
+        factor *= 0.5;
+    }
+
+    in2[idx_j_2] = factor * in[idx_j];
+}
+```
+
+In the desired truely-2D IDCT, there is no contribution from `(j0,j1)=(0,0)` by the second term
+in the split-basis approach used to implement this transform using FFTW since the arguments to `sin` are zero in this case.
+This motivates the check for `j0 > 0 && j1 > 0` above.
+The indices `j0` and `j1` in the `REDFT01` input are "transformed" to the corresponding indices `my_j0` and `my_j1`
+in the input to `RODFT01`. The corresponding linear index `idx_j_2` in `in2` is computed from `my_j0` and `my_j1`.
+Factors of `0.5` are required for each dimension in which the index is less than `n-1`
+to cancel the factor of `2` in the definition of `RODFT01`. 
+
+The FFTW plans can be executed after computing the reference output
+and it remains to combine the outputs appropriately to arrive at the final result in `out1`:
+
+```C
+for (int k0 = 0; k0 < n0; ++k0) {
+    for (int k1 = 0; k1 < n1; ++k1) {
+        idx_k = k0 * n1 + k1;
+
+        // subtract because cos(u+v) = cos(u)*cos(v) - sin(u)*sin(v)
+        out1[idx_k] -= out2[idx_k];
+    }
+}
+```
 
 The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
