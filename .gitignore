@@ -16,6 +16,7 @@ test_2d_r2c
 test_2d_r2r_e10_o10
 test_2d_r2r_true2d
 app_magn_axis
+app_magn_axis_stellsym
 
 # test output data
 test_1d_redft00_*
@@ -27,6 +28,7 @@ test_1d_rodft10_*
 test_1d_rodft01_*
 test_1d_rodft11_*
 axis_R.dat
+axis_R_halfGrid.dat
 
 # auxiliary tests
 test_util

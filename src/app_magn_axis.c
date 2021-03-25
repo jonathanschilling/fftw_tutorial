@@ -14,11 +14,11 @@ void app_magn_axis(int n_zeta) {
 
     // cos-parity Fourier coefficients for magnetic axis
     double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 1.21e-3, 4.89e-6, -5.12e-5,
-            -6.57e-5, 2.27e-6, -9.28e-5, -5.32e-7, 6.67e-5, 5.72e-5, 2.38e-5 };
+        -6.57e-5, 2.27e-6, -9.28e-5, -5.32e-7, 6.67e-5, 5.72e-5, 2.38e-5 };
 
     // sin-parity Fourier coefficients for magnetic axis
     double R_ax_sin[13] = { 0.0, 0.0727, 6.34e-3, 5.84e-3, 9.77e-4, 5.32e-5,
-            8.48e-5, 5.57e-5, 5.56e-5, 5.53e-6, 7.74e-7, 1.03e-5, 8.75e-6 };
+        8.48e-5, 5.57e-5, 5.56e-5, 5.53e-6, 7.74e-7, 1.03e-5, 8.75e-6 };
 
     int nCplx = n_zeta / 2 + 1;
     if (nCplx < ntor + 1) {
