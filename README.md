@@ -1555,6 +1555,10 @@ The output data is compared in the following figure with the equivalent result f
 
 ![R of magnetic axis: c2r DFT vs. REDFT01](img/axis_R.png)
 
+The violet curve labelled 'DFT' is the output from the `c2r` DFT applied in the first half of this example.
+The green curve labelled 'REDFT01' is the output from the `REDFT01` applied in the second half of this example.
+Note that the locations of the `REDFT01` output needed to be shifted to the right by half an index to yield overlapping curves.
+
 ### Geometry of a Flux Surface in a Stellarator
 
 The real-space geometry of the flux surface (a general toroidal surface) is given via a two-dimensional DFT:
