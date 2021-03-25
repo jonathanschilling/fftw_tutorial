@@ -17,7 +17,8 @@ all: complex_dft.png \
      rodft01.png \
      rodft11.png \
      sin_cos_add.png \
-     true_2d_idct.png
+     true_2d_idct.png \
+     true_2d_idct_kernel.png
 
 clean:
 	rm *.png
