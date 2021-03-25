@@ -1457,6 +1457,10 @@ int ntor = 12;
 double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 0.00121, 4.89e-06, -5.12e-05,
         -6.57e-05, 2.27e-06, -0.0000928, -5.32e-07, 6.67e-05, 5.72e-05,
         2.38e-05 };
+
+// sin-parity Fourier coefficients for magnetic axis
+double R_ax_sin[13] = { 0.0, 0.0727, 6.34e-03, 5.84e-03, 9.77e-04, 5.32e-05,
+        8.48e-05, 5.57e-05, 5.56e-05, 5.53e-06, 7.74e-07, 1.03e-05, 8.75e-06 };
 ```
 
 The number of grid points in the toroidal direction at which the magnetic axis geometry
@@ -1485,7 +1489,7 @@ and (if present) the remainder of the input array is set to zero:
 ```C
 // copy over available Fourier coefficients
 for (int n=0; n<=ntor; ++n) {
-    in[n] = R_ax_cos[n];
+    in[n] = R_ax_cos[n] - I * R_ax_sin[n];
 }
 
 // zero out remaining input Fourier coefficients
