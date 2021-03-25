@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-void app_magn_axis(int n_zeta) {
+void app_magn_axis_stellsym(int n_zeta) {
 
     // number of Fourier coefficients
     int ntor = 12;
@@ -54,7 +54,7 @@ void app_magn_axis(int n_zeta) {
 }
 
 int main(int argc, char** argv) {
-    app_magn_axis(36);
+    app_magn_axis_stellsym(36);
 
     return 0;
 }
