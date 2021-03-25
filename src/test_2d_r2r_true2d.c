@@ -11,11 +11,12 @@ int test_2d_r2r_true2d(int n0, int n1) {
     int idx_k, idx_j;
 
     double *in = fftw_alloc_real(n0 * n1);
+    double *ref_out = fftw_alloc_real(n0 * n1);
+
     double *in1 = fftw_alloc_real(n0 * n1);
     double *in2 = fftw_alloc_real(n0 * n1);
     double *out1 = fftw_alloc_real(n0 * n1);
     double *out2 = fftw_alloc_real(n0 * n1);
-    double *ref_out = fftw_alloc_real(n0 * n1);
 
     fftw_plan p1 = fftw_plan_r2r_2d(n0, n1, in1, out1, FFTW_REDFT01, FFTW_REDFT01, FFTW_ESTIMATE);
     fftw_plan p2 = fftw_plan_r2r_2d(n0, n1, in2, out2, FFTW_RODFT01, FFTW_RODFT01, FFTW_ESTIMATE);
@@ -46,9 +47,9 @@ int test_2d_r2r_true2d(int n0, int n1) {
 
             // input data for RODFT01
             // need to shift indices by -1 due to (j+1) in definition
-            if (j0 > 0 || j1 > 0) {
-                int my_j0 = j0 > 0 ? j0-1 : j0;
-                int my_j1 = j1 > 0 ? j1-1 : j1;
+            if (j0 > 0 && j1 > 0) {
+                int my_j0 = j0-1;
+                int my_j1 = j1-1;
 
                 idx_j_2 = my_j0 * n1 + my_j1;
 
