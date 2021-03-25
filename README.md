@@ -1350,9 +1350,9 @@ due to the `j+1` appearing in the definition of `RODFT01`.
 This is the `/* fill in2 */` step in above loop:
 
 ```C
-if (j0 > 0 || j1 > 0) {
-    int my_j0 = j0 > 0 ? j0-1 : j0;
-    int my_j1 = j1 > 0 ? j1-1 : j1;
+if (j0 > 0 && j1 > 0) {
+    int my_j0 = j0-1;
+    int my_j1 = j1-1;
 
     idx_j_2 = my_j0 * n1 + my_j1;
 
@@ -1367,6 +1367,14 @@ if (j0 > 0 || j1 > 0) {
     in2[idx_j_2] = factor * in[idx_j];
 }
 ```
+
+In the desired truely-2D IDCT, there is no contribution from `(j0,j1)=(0,0)` by the second term
+in the split-basis approach used to implement this transform using FFTW since the arguments to `sin` are zero in this case.
+This motivates the check for `j0 > 0 && j1 > 0` above.
+The indices `j0` and `j1` in the `REDFT01` input are "transformed" to the corresponding indices `my_j0` and `my_j1`
+in the input to `RODFT01`. The corresponding linear index `idx_j_2` in `in2` is computed from `my_j0` and `my_j1`.
+Factors of `0.5` are required for each dimension in which the index is less than `n-1`
+to cancel the factor of `2` in the definition of `RODFT01`. 
 
 The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
