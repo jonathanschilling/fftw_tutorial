@@ -1230,13 +1230,20 @@ ref_out[idx_k] += in[idx_j] * basis_0 * basis_1;
 
 The full example can be found in [`src/test_2d_r2r_e10_o10.c`](src/test_2d_r2r_e10_o10.c).
 
-#### True 2D DFT using FFTW
+#### True 2D IDCT using FFTW
 
-A true two-dimensional DFT is computed using FFTW in this example.
-The kernel function is `cos(pi*(j0*k0/n0 + j1*k1/n1))`
-and this splits up into one 2d `r2r` transform with `cos(pi*j0*k0/n0) * cos(pi*j1*k1/n1)`
-and one `r2r` transform with `sin(pi*j0*k0/n0) * sin(pi*j1*k1/n1)`,
-which are added together in the end.
+A true two-dimensional inverse discrete cosine transform is computed using FFTW in this example:
+
+![True two-dimensional IDCT](eqn/true_2d_idct.png)
+
+FFTW can only compute the separable product of one-dimensional transforms
+for multi-dimensional transform.
+Above kernel function thus has to be split up by application of the addition formula for sine and cosine:
+
+![True two-dimensional IDCT kernel](eqn/true_2d_idct_kernel.png)
+
+
+
 
 
 
