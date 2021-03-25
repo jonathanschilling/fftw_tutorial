@@ -35,14 +35,17 @@ in order to illustrate explicitly what kind of symmetries and scaling properties
 This tutorial starts by computing one-dimensional (1D) DFTs of random input data.
 
 ### 1D complex-to-complex
-The first example is basically a self-contained version of the [corresponding example in the FFTW manual](http://fftw.org/fftw3_doc/Complex-One_002dDimensional-DFTs.html#Complex-One_002dDimensional-DFTs). 
+The first example is basically a self-contained version
+of the [corresponding example in the FFTW manual](http://fftw.org/fftw3_doc/Complex-One_002dDimensional-DFTs.html#Complex-One_002dDimensional-DFTs). 
 
-We want to compute the complex-valued one-dimensional DFT here, which is specified in [section 4.8.1 of the FFTW reference manual](http://fftw.org/fftw3_doc/The-1d-Discrete-Fourier-Transform-_0028DFT_0029.html#The-1d-Discrete-Fourier-Transform-_0028DFT_0029).
+We want to compute the complex-valued one-dimensional DFT here, which is specified in
+[section 4.8.1 of the FFTW reference manual](http://fftw.org/fftw3_doc/The-1d-Discrete-Fourier-Transform-_0028DFT_0029.html#The-1d-Discrete-Fourier-Transform-_0028DFT_0029).
 
 ![complex-valued DFT](eqn/complex_dft.png)
 
 The sign in the exponent of the basis function specifies the direction in which the Fourier transform is to be computed:
-`-1` indicates a "forward" transform and `+1` indicates a backward transform. These values are available via the `FFTW_FORWARD` and `FFTW_BACKWARD` preprocessor macros.
+`-1` indicates a "forward" transform and `+1` indicates a backward transform.
+These values are available via the `FFTW_FORWARD` and `FFTW_BACKWARD` preprocessor macros.
 
 In order to compute the DFT, complex-valued products of the following form need to be evaluated:
 
@@ -1409,10 +1412,23 @@ The real-space geometry of the magnetic axis (a general closed curve) is given v
 
 ![full Fourier series for magnetic axis](eqn/magn_axis.png)
 
+where ζ is the toroidal angle per field period in radians.
+For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
+Conversely, the first unique toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
+
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform reduces to one-dimensional IDCTs and IDSTs:
 
 ![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
+
+In either case, one might desire to evaluate the geometry of the magnetic axis at regular intervals in ζ:
+
+![grid in zeta](grid_zeta.png)
+
+Here, FFTW can help out!
+
+
+
 
 ### Geometry of a Flux Surface in a Stellarator
 
@@ -1420,10 +1436,26 @@ The real-space geometry of the flux surface (a general toroidal surface) is give
 
 ![full Fourier series for flux surface](eqn/flux_surface.png)
 
+where (θ,ζ) are the poloidal and toroidal angles in radians, respectively.
+For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
+Conversely, the first unique toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
+The poloidal angle-like coordinate θ ranges from 0 to 2π once the short way around the torus (wristband-like).
+
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform reduces to two-dimensional IDCTs and IDSTs:
 
 ![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
+
+In either case, one might desire to evaluate the geometry of the flux surface
+on a regular grid in θ and ζ:
+
+![grid in zeta](grid_zeta.png)
+![grid in theta](grid_theta.png)
+
+Here, FFTW can help out!
+
+
+
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
