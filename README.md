@@ -168,7 +168,8 @@ have to be weighted with a factor of 2.
 The elements that need to be weighted by a factor of 2 are highlighted by solid blue lines in above illustration.
 The redundant elements that are not explicitly needed are indicated by dashed blue lines.
 
-The transformation from complex Fourier space to real-valued real space is demonstrated in [`src/test_1d_c2r.c`](src/test_1d_c2r.c).
+The backward transformation from complex-valued Fourier space
+to real space is demonstrated in [`src/test_1d_c2r.c`](src/test_1d_c2r.c).
 The relevant portion of the source code is here:
 
 ```C
@@ -207,7 +208,7 @@ The (purely real) Nyquist element at `n/2` is added separately if `n` is even.
 All other elements are weighted by a factor of 2 and only the real part
 of the complex product of input Fourier coefficient and complex-valued basis function is actually computed.
 
-The backward transform from real space to Fourier space is comparably simple to implement:
+The forward transform from real space to Fourier space is comparably simple to implement:
 
 ```C
 for (int k = 0; k < nCplx; ++k) {
