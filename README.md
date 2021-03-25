@@ -207,7 +207,7 @@ The (purely real) Nyquist element at `n/2` is added separately if `n` is even.
 All other elements are weighted by a factor of 2 and only the real part
 of the complex product of input Fourier coefficient and complex-valued basis function is actually computed.
 
-The reverse transform from real space to Fourier space is comparably simple to implement:
+The backward transform from real space to Fourier space is comparably simple to implement:
 
 ```C
 for (int k = 0; k < nCplx; ++k) {
