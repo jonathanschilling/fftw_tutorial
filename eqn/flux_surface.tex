@@ -1,0 +1,26 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{units}
+%\usepackage{lmodern}
+%\usepackage{arevtext,arevmath}
+\usepackage[left=-2mm,top=0mm,
+            right=0cm,bottom=0cm,
+            nohead,nofoot,
+            paperwidth  = 150mm, 
+            paperheight = 100mm]{geometry}
+\pagestyle{empty}
+
+\begin{document}
+\begin{align*}
+R(\theta, \zeta) =& \phantom{+}~                      \sum\limits_{n= 0}^{N}   R_{0,n}^\mathrm{cos} \cos \left(            n \zeta \right)
+                                                                             + R_{0,n}^\mathrm{sin} \sin \left(            n \zeta \right) \\
+                 ~&          +  \sum\limits_{m=1}^{M} \sum\limits_{n=-N}^{N}   R_{m,n}^\mathrm{cos} \cos \left( m \theta - n \zeta \right)
+                                                                             + R_{m,n}^\mathrm{sin} \sin \left( m \theta - n \zeta \right) \\
+Z(\theta, \zeta) =& \phantom{+}~                      \sum\limits_{n= 0}^{N}   Z_{0,n}^\mathrm{sin} \sin \left(            n \zeta \right)
+                                                                             + Z_{0,n}^\mathrm{cos} \cos \left(            n \zeta \right) \\
+                 ~&          +  \sum\limits_{m=1}^{M} \sum\limits_{n=-N}^{N}   Z_{m,n}^\mathrm{sin} \sin \left( m \theta - n \zeta \right)
+                                                                             + Z_{m,n}^\mathrm{cos} \cos \left( m \theta - n \zeta \right)
+\end{align*}
+\end{document}
+
