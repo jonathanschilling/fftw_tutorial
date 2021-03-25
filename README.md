@@ -1368,16 +1368,18 @@ if (j0 > 0 && j1 > 0) {
 }
 ```
 
-In the desired truely-2D IDCT, there is no contribution from `(j0,j1)=(0,0)` by the second term
-in the split-basis approach used to implement this transform using FFTW since the arguments to `sin` are zero in this case.
+In the desired truely-2D IDCT, there is no contribution from the second term
+in the split-basis approach used to implement this transform using FFTW 
+if either `j0==0` or `j1==0`, since the respecitve arguments to `sin` are zero in this case.
 This motivates the check for `j0 > 0 && j1 > 0` above.
-The indices `j0` and `j1` in the `REDFT01` input are "transformed" to the corresponding indices `my_j0` and `my_j1`
+The indices `j0` and `j1` in the `REDFT01` input are transformed to the corresponding indices `my_j0` and `my_j1`
 in the input to `RODFT01`. The corresponding linear index `idx_j_2` in `in2` is computed from `my_j0` and `my_j1`.
 Factors of `0.5` are required for each dimension in which the index is less than `n-1`
 to cancel the factor of `2` in the definition of `RODFT01`. 
 
 The FFTW plans can be executed after computing the reference output
-and it remains to combine the outputs appropriately to arrive at the final result in `out1`:
+and it remains to combine the outputs by subtracting the contribution
+from the two-dimensional `RODFT01` to arrive at the final result in `out1`:
 
 ```C
 for (int k0 = 0; k0 < n0; ++k0) {
