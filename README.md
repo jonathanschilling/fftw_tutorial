@@ -1450,6 +1450,7 @@ In either case, one might desire to evaluate the geometry of the flux surface
 on a regular grid in θ and ζ:
 
 ![grid in zeta](eqn/grid_zeta.png)
+
 ![grid in theta](eqn/grid_theta.png)
 
 Here, FFTW can help out!
