@@ -1454,13 +1454,12 @@ The axis geometry is defined as follows:
 int ntor = 12;
 
 // cos-parity Fourier coefficients for magnetic axis
-double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 0.00121, 4.89e-06, -5.12e-05,
-        -6.57e-05, 2.27e-06, -0.0000928, -5.32e-07, 6.67e-05, 5.72e-05,
-        2.38e-05 };
+double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 1.21e-3, 4.89e-6, -5.12e-5,
+    -6.57e-5, 2.27e-6, -9.28e-5, -5.32e-7, 6.67e-5, 5.72e-5, 2.38e-5 };
 
 // sin-parity Fourier coefficients for magnetic axis
-double R_ax_sin[13] = { 0.0, 0.0727, 6.34e-03, 5.84e-03, 9.77e-04, 5.32e-05,
-        8.48e-05, 5.57e-05, 5.56e-05, 5.53e-06, 7.74e-07, 1.03e-05, 8.75e-06 };
+double R_ax_sin[13] = { 0.0, 0.0727, 6.34e-3, 5.84e-3, 9.77e-4, 5.32e-5,
+    8.48e-5, 5.57e-5, 5.56e-5, 5.53e-6, 7.74e-7, 1.03e-5, 8.75e-6 };
 ```
 
 The number of grid points in the toroidal direction at which the magnetic axis geometry
@@ -1506,6 +1505,16 @@ reduces to the one-dimensional IDCT and IDST, respectively:
 
 ![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
 
+The [FFTW documentation](http://fftw.org/fftw3_doc/Real-even_002fodd-DFTs-_0028cosine_002fsine-transforms_0029.html#DOCF4)
+explicitly advises against using `R*DFT00` transforms for this purpose.
+
+If the data is required anyway on the whole domain from 0 to 2π,
+it is probably easiest and fastest (in terms of development work) to simply use a `c2r` DFT
+and provide only real data in the input.
+
+On the other hand, in case the evaluation locations are not required to be located on
+"full" grid points in the toroidal direction, `REDFT01` and  `RODFT01` can be used.
+This is the subject of the now-starting second half of this example.
 
 
 
