@@ -24,7 +24,7 @@ int test_2d_r2r_true2d(int n0, int n1) {
     // random input
     fill_random_2d_real(n0, n1, in);
 
-    // copy relevant input into in2
+    // copy relevant input into in1 and in2
     int idx_j_2;
     for (int j0=0; j0<n0; ++j0) {
         for (int j1=0; j1<n1; ++j1) {
@@ -66,7 +66,7 @@ int test_2d_r2r_true2d(int n0, int n1) {
         }
     }
 
-    // manually compute DFT for reference
+    // manually compute 2D IDCT for reference
     double basis;
     for (int k0 = 0; k0 < n0; ++k0) {
         for (int k1 = 0; k1 < n1; ++k1) {
