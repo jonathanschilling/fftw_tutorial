@@ -1414,6 +1414,9 @@ Here is a plot of a few of the flux surfaces of the [Wendelstein 7-X](https://ww
 Nested flux surfaces are shown in grey, red, green and blue.
 The black line indicates the magnetic axis.
 
+The geometry of the magnetic axis and that of a flux surface are real-valued.
+Therefore, `c2r` DFTs are sufficient to compute the backward transforms to real space.
+
 ### Geometry of the Magnetic Axis in a Stellarator
 The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT
 [evaluated using real-valued arithmetics](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-complex):
@@ -1444,6 +1447,54 @@ FFTW only supports (logically) equally-sized input and output arrays and thus,
 if less Fourier coefficients than desired grid points are to be used,
 the Fourier coefficient array needs to be filled with zeros in the remaining area.
 
+The axis geometry is defined as follows:
+
+```C
+// number of Fourier coefficients
+int ntor = 12;
+
+// cos-parity Fourier coefficients for magnetic axis
+double R_ax_cos[13] = { 5.63, 0.391, 0.0123, 0.00121, 4.89e-06, -5.12e-05,
+        -6.57e-05, 2.27e-06, -0.0000928, -5.32e-07, 6.67e-05, 5.72e-05,
+        2.38e-05 };
+```
+
+The number of grid points in the toroidal direction at which the magnetic axis geometry
+is to be evaluated is specified via the `n_zeta` parameter.
+It needs to be checked that `n_zeta` is large enough, i.e.,
+above the Nyquist limit corresponding to the specified number of Fourier coefficients.
+Then, the input and output arrays can be allocated:
+
+```C
+int nCplx = n_zeta/2+1;
+if (nCplx<ntor+1) {
+    printf("error: number of grid points too low.\n");
+    return;
+}
+
+fftw_complex *in = fftw_alloc_complex(nCplx);
+double *out = fftw_alloc_real(n_zeta);
+
+fftw_plan p = fftw_plan_dft_c2r_1d(n_zeta, in, out, FFTW_ESTIMATE);
+```
+
+Now that the input array is allocated,
+the available Fourier coefficients can be copied over
+and (if present) the remainder of the input array is set to zero:
+
+```C
+// copy over available Fourier coefficients
+for (int n=0; n<=ntor; ++n) {
+    in[n] = R_ax_cos[n];
+}
+
+// zero out remaining input Fourier coefficients
+for (int n=ntor+1; n<nCplx; ++n) {
+    in[n] = 0.0;
+}
+```
+
+The full example can be found in [`src/app_magn_axis.c`](src/app_magn_axis.c).
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform
