@@ -18,7 +18,11 @@ all: complex_dft.png \
      rodft11.png \
      sin_cos_add.png \
      true_2d_idct.png \
-     true_2d_idct_kernel.png
+     true_2d_idct_kernel.png \
+     magn_axis.png \
+     magn_axis_stellsym.png \
+     flux_surface.png \
+     flux_surface_stellsym.png
 
 clean:
 	rm *.png
