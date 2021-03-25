@@ -1506,19 +1506,54 @@ reduces to the one-dimensional IDCT and IDST, respectively:
 ![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
 
 The [FFTW documentation](http://fftw.org/fftw3_doc/Real-even_002fodd-DFTs-_0028cosine_002fsine-transforms_0029.html#DOCF4)
-explicitly advises against using `R*DFT00` transforms for this purpose.
-
+explicitly advises against using `R*DFT00` transforms for this purpose due to numerical stability issues
+which are currently circumvented within FFTW by using a less efficient algorithm.
 If the data is required anyway on the whole domain from 0 to 2π,
-it is probably easiest and fastest (in terms of development work) to simply use a `c2r` DFT
-and provide only real data in the input.
+it is probably easiest and fastest (in terms of development work)
+to simply use a `c2r` DFT and provide only real data in the input.
 
 On the other hand, in case the evaluation locations are not required to be located on
 "full" grid points in the toroidal direction, `REDFT01` and  `RODFT01` can be used.
 This is the subject of the now-starting second half of this example.
 
+The number of grid points as well as the output array size are given as follows:
 
+```C
+int nCplx = n_zeta / 2;
+if (nCplx < ntor + 1) {
+    printf("error: number of grid points too low.\n");
+    return;
+}
+```
 
+Only the cosine Fourier coefficients are copied over into the (real) input array:
 
+```C
+// copy over available Fourier coefficients
+in[0] = R_ax_cos[0];
+for (int n = 1; n <= ntor; ++n) {
+    in[n] = R_ax_cos[n];
+}
+
+// zero out remaining input Fourier coefficients
+for (int n = ntor + 1; n < nCplx; ++n) {
+    in[n] = 0.0;
+}
+```
+
+The second half of the output array (of size `n_zeta` for equivalent with the first half of this example)
+is filled by applying the even symmetry of the output data implicitly used in `REDFT01`:
+
+```C
+for (int n=0; n<nCplx; ++n) {
+    printf("%d --> %d\n", n, n_zeta-1-n);
+    out[n_zeta - 1 - n] = out[n];
+}
+```
+
+The output data is compared in the following figure with the equivalent result from using a `c2r` transform:
+
+![R of magnetic axis: c2r DFT vs. REDFT01](img/axis_R.png)
 
 ### Geometry of a Flux Surface in a Stellarator
 
