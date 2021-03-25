@@ -1407,6 +1407,10 @@ In this section, FFTW is used to evaluate the geometry
 of the magnetic axis and a flux surface of a stellarator ideal magnetohydrodynamic plasma equilibrium
 as computed by the [Variational Moments Equilibrium Code (VMEC)](https://doi.org/10.1016/0010-4655(86)90058-5).
 
+Here is a plot of a few of the flux surfaces of the [Wendelstein 7-X](https://www.ipp.mpg.de/w7x) stellarator:
+
+![flux surfaces and magnetic axis of W7-X](img/flux_surfaces_w7x_ref_163_1_10_50_98_cut_small.png)
+
 ### Geometry of the Magnetic Axis in a Stellarator
 The real-space geometry of the magnetic axis (a general closed curve) is given via a one-dimensional DFT
 [evaluated using real-valued arithmetics](https://github.com/jonathanschilling/fftw_tutorial#1d-complex-to-complex):
