@@ -1424,15 +1424,29 @@ where ζ is the toroidal angle per field period in radians.
 For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
 Conversely, the first (unique) toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
 
+In this example the geometry of the magnetic axis is evaluated at regular intervals in ζ:
+
+![grid in zeta](eqn/grid_zeta.png)
+
+where *l* ranges from `0` to `n_ζ-1`.
+
+Inserting this into the Fourier series for, e.g., the *R* coordinate leads to a DFT:
+
+![magnetic axis R via DFT](eqn/magn_axis_dft.png)
+
+
+
+
+
+
+
+
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform
 reduces to the one-dimensional IDCT and IDST, respectively:
 
 ![stellarator-symmetric Fourier series for magnetic axis](eqn/magn_axis_stellsym.png)
 
-In this example the geometry of the magnetic axis is evaluated at regular intervals in ζ:
-
-![grid in zeta](eqn/grid_zeta.png)
 
 
 
