@@ -1376,6 +1376,20 @@ in the input to `RODFT01`. The corresponding linear index `idx_j_2` in `in2` is 
 Factors of `0.5` are required for each dimension in which the index is less than `n-1`
 to cancel the factor of `2` in the definition of `RODFT01`. 
 
+The FFTW plans can be executed after computing the reference output
+and it remains to combine the outputs appropriately to arrive at the final result in `out1`:
+
+```C
+for (int k0 = 0; k0 < n0; ++k0) {
+    for (int k1 = 0; k1 < n1; ++k1) {
+        idx_k = k0 * n1 + k1;
+
+        // subtract because cos(u+v) = cos(u)*cos(v) - sin(u)*sin(v)
+        out1[idx_k] -= out2[idx_k];
+    }
+}
+```
+
 The full example can be found in [`src/test_2d_r2r_true2d.c`](src/test_2d_r2r_true2d.c).
 
 ## Allocation of arrays
