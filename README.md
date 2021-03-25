@@ -1423,7 +1423,7 @@ half of the Fourier coefficients can be omitted and the transform reduces to one
 
 In either case, one might desire to evaluate the geometry of the magnetic axis at regular intervals in ζ:
 
-![grid in zeta](grid_zeta.png)
+![grid in zeta](eqn/grid_zeta.png)
 
 Here, FFTW can help out!
 
@@ -1449,8 +1449,8 @@ half of the Fourier coefficients can be omitted and the transform reduces to two
 In either case, one might desire to evaluate the geometry of the flux surface
 on a regular grid in θ and ζ:
 
-![grid in zeta](grid_zeta.png)
-![grid in theta](grid_theta.png)
+![grid in zeta](eqn/grid_zeta.png)
+![grid in theta](eqn/grid_theta.png)
 
 Here, FFTW can help out!
 
