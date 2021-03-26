@@ -1,0 +1,23 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{units}
+%\usepackage{lmodern}
+%\usepackage{arevtext,arevmath}
+\usepackage[left=-2mm,top=0mm,
+            right=0cm,bottom=0cm,
+            nohead,nofoot,
+            paperwidth = 150mm, 
+            paperheight = 50mm]{geometry}
+\pagestyle{empty}
+
+\begin{document}
+\begin{equation*}
+R_{m,n} = \begin{cases}
+            0                                             & m=0, n<0 \\
+            R_{0,n}^\mathrm{cos} - i R_{0,n}^\mathrm{sin} & m=0,n \geq 0 \\
+            R_{m,n}^\mathrm{cos} - i R_{m,n}^\mathrm{sin} & \textrm{else}
+          \end{cases}
+\end{equation*}
+\end{document}
+

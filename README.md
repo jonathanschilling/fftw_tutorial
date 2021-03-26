@@ -1433,7 +1433,7 @@ In this example the geometry of the magnetic axis is evaluated at regular interv
 
 where *l* ranges from `0` to `n_ζ-1`.
 
-Inserting this into the Fourier series for, e.g., the *R* coordinate leads to a DFT:
+Inserting this into the Fourier series for, e.g., the *R* coordinate, leads to a DFT:
 
 ![magnetic axis R via DFT](eqn/magn_axis_dft.png)
 
@@ -1561,20 +1561,21 @@ Note that the locations of the `REDFT01` output needed to be shifted to the righ
 The full example can be found in [`src/app_magn_axis_stellsym.c`](src/app_magn_axis_stellsym.c).
 
 ### Geometry of a Flux Surface in a Stellarator
-
-The real-space geometry of the flux surface (a general toroidal surface) is given via a two-dimensional DFT:
+The real-space geometry of the flux surface is a general toroidal surface
+which is conveniently parameterized using poloidal and toroidal angle-like coordinates.
+The surface geometry is then given via a two-dimensional DFT:
 
 ![full Fourier series for flux surface](eqn/flux_surface.png)
 
-where (θ,ζ) are the poloidal and toroidal angles in radians, respectively.
+where (θ,ζ) are the poloidal and toroidal angle-like variables in radians, respectively.
 For a five-fold symmetric stellarator like W7-X, ζ ranges from 0 to 5 * 2π around the whole machine.
 Conversely, the first (unique) toroidal segment of the geometry is contained within a range of ζ from 0 to 2π.
 The poloidal angle-like coordinate θ ranges from 0 to 2π once the short way around the torus (wristband-like).
 
-Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
-half of the Fourier coefficients can be omitted and the transform reduces to the two-dimensional IDCT and IDST:
+The two-dimensional DFT above can be simplified (shown here for *R* only)
+by introducing rectangular two-dimensional Fourier coefficient matrices:
 
-![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
+![full 2d FC matrix for flux surface](eqn/vmec_2d_fc.png)
 
 In this example the geometry of the flux surface is evaluated
 on a regular grid in θ and ζ:
@@ -1582,6 +1583,30 @@ on a regular grid in θ and ζ:
 ![grid in zeta](eqn/grid_zeta.png)
 
 ![grid in theta](eqn/grid_theta.png)
+
+where *l* ranges from `0` to `n_ζ-1` and *k* ranges from `0` to `n_θ-1`.
+
+Inserting this into the Fourier series for, e.g., the *R* coordinate, leads to a DFT:
+
+![flux surface R via DFT](eqn/flux_surface_dft.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
+half of the Fourier coefficients can be omitted and the transform reduces to the two-dimensional IDCT and IDST:
+
+![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
+
 
 
 
