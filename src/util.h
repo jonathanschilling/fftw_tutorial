@@ -9,6 +9,34 @@
 #include <complex.h>
 #include <fftw3.h>
 
+void fill_zero_1d_real(int n, double *arr) {
+    for (int i = 0; i < n; ++i) {
+            arr[i] = 0.0;
+        }
+}
+
+void fill_zero_1d_cplx(int n, fftw_complex *arr) {
+    for (int i = 0; i < n; ++i) {
+        arr[i] = 0.0;
+    }
+}
+
+void fill_zero_2d_real(int rows, int cols, double *arr) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            arr[i * cols + j] = 0.0;
+        }
+    }
+}
+
+void fill_zero_2d_cplx(int rows, int cols, fftw_complex *arr) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            arr[i * cols + j] = 0.0;
+        }
+    }
+}
+
 void fill_random_1d_real(int n, double *arr) {
     for (int i = 0; i < n; ++i) {
         arr[i] = rand() / ((double) RAND_MAX);

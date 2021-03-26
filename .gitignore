@@ -31,6 +31,8 @@ test_1d_rodft11_*
 axis_R.dat
 axis_R_symm.dat
 axis_R_halfGrid.dat
+lcfs_R.dat
+lcfs_Z.dat
 
 # auxiliary tests
 test_util

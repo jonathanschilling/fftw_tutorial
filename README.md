@@ -1593,7 +1593,12 @@ Inserting this into the Fourier series for, e.g., the *R* coordinate, leads to a
 The *R* coordinate is a real-valued quantity
 which implies that a two-dimensional `c2r` DFT provided by FFTW can be used to
 perform the backward transform in order to evaluate the flux surface geometry.
-
+One further issue consists in the fact that the definition
+of the Fourier geometry employed in VMEC uses an angle argument *m θ - n ζ*
+where the two-dimensional DFT written out above uses *m θ + n ζ*.
+The Fourier coefficients coming from VMEC
+have to be inserted into the positions corresponding to the reverse sign of *n*
+in the input array given to FFTW in order to resolve this pecularity. 
 
 
 
