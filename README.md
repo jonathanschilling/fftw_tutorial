@@ -1594,31 +1594,83 @@ The *R* coordinate is a real-valued quantity
 which implies that a two-dimensional `c2r` DFT provided by FFTW can be used to
 perform the backward transform in order to evaluate the flux surface geometry.
 One further issue consists in the fact that the definition
-of the Fourier geometry employed in VMEC uses an angle argument *m θ - n ζ*
-where the two-dimensional DFT written out above uses *m θ + n ζ*.
+of the Fourier geometry employed in VMEC uses an angle argument *(m θ - n ζ)*
+where the two-dimensional DFT written out above uses *(m θ + n ζ)*.
 The Fourier coefficients coming from VMEC
-have to be inserted into the positions corresponding to the reverse sign of *n*
+have to be inserted into the positions corresponding to *(-n)*
 in the input array given to FFTW in order to resolve this pecularity. 
 
+The next part concers the code to copy over the Fourier coefficients
+staring from the VMEC output in arrays `rmnc` and `zmns` into the input to FFTW.
 
+The index in the FFTW input corresponding to given mode numbers `n` and `m`
+can be computed as follows:
+ 
+```C
+if (n <= 0) {
+    idx_in = -n * nyq_pol + m;
+} else {
+    idx_in = (n_zeta - n) * nyq_pol + m;
+}
+```
 
+This code is abbreviated in the following as `/* compute idx_in */`.
 
+For the first coefficients with `m=0`, 
+the copying is performed as follows:
 
+```C
+int idx_vmec = 0;
+int m = 0;
+for (int n = 0; n <= ntor; ++n) {
 
+    /* compute idx_in */
 
+    in_R[idx_in] =     rmnc[idx_vmec];
+    in_Z[idx_in] = I * zmns[idx_vmec];
 
+    idx_vmec++;
+}
+```
 
+Note that VMEC weights the coefficients for `m=0` with positive `n ζ`
+in contrast to the following coefficients with `m>0`.
+The cosine-parity quantities like *R* are not influence by this,
+but the sine-parity quantities like *Z* need to get the sign of their value flipped
+due to the odd symmetry `sin(-n zeta) = -sin(n zeta)`.
 
+The second part of the copying adresses the Fourier coefficients
+with `m>0`:
+
+```C
+for (m = 1; m < mpol; ++m) {
+    for (int n = -ntor; n <= ntor; ++n) {
+
+        /* compute idx_in */
+
+        in_R[idx_in] =  0.5 *     rmnc[idx_vmec];
+        in_Z[idx_in] = -0.5 * I * zmns[idx_vmec];
+
+        idx_vmec++;
+    }
+}
+```
+
+Here, the coefficients are scaled by a factor of `0.5`.
+FFTW implies that coefficientss for `m<0` were present in the logically equivalent DFT input,
+which is not the case for VMEC output. Thus, they are (in this case errornously)
+scaled internally by a factor of `2`, which needs to be counteracted by a scaling factor of `0.5` in the input.
 
 Assuming [stellarator symmetry](https://doi.org/10.1016/S0167-2789(97)00216-9),
 half of the Fourier coefficients can be omitted and the transform reduces to the two-dimensional IDCT and IDST:
 
 ![stellarator-symmetric Fourier series for flux surface](eqn/flux_surface_stellsym.png)
 
+This is currently resolved by simply omitting the stellarator-asymmetric terms
+in the input to FFTW.
 
-
-
-
+The full example code can be found in [`src/app_flux_surface.c`](src/app_flux_surface.c).
+A Python script is provided to plot the resulting real-space geometry in [`src/plot_lcfs_realspace.py`](src/plot_lcfs_realspace.py).
 
 ## Allocation of arrays
 Throughout this example collection, the proposed convenience wrapper functions provided by FFTW for allocating real- and complex-valued arrays are used:
