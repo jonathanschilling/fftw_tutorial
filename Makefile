@@ -30,6 +30,9 @@ all: $(TARGETS)
 
 clean:
 	rm -f test_*
+	rm -f app_*
+	rm -f axis_R*.dat
+	rm -f lcfs_*.dat
 
 test: $(addsuffix _test,$(TARGETS))
 
