@@ -23,7 +23,8 @@ TARGETS=test_util \
         test_2d_r2r_e10_o10 \
         test_2d_r2r_true2d \
         app_magn_axis \
-        app_magn_axis_stellsym
+        app_magn_axis_stellsym \
+        app_flux_surface
 
 all: $(TARGETS)
 

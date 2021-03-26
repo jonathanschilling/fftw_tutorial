@@ -1590,6 +1590,9 @@ Inserting this into the Fourier series for, e.g., the *R* coordinate, leads to a
 
 ![flux surface R via DFT](eqn/flux_surface_dft.png)
 
+The *R* coordinate is a real-valued quantity
+which implies that a two-dimensional `c2r` DFT provided by FFTW can be used to
+perform the backward transform in order to evaluate the flux surface geometry.
 
 
 
