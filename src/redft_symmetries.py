@@ -37,7 +37,9 @@ def redft10(x):
         for n in range(N):
             c[k] += 2.0 * x[n] * np.cos(np.pi/N * (n+0.5) * k)
     return c
-    
+
+#%%
+
 N = 8
 
 np.random.seed(0)
@@ -55,21 +57,14 @@ x_odd_full.append(0.0)
 for xo in x_odd[:0:-1]:
     x_odd_full.append(xo)
 
-x_odd.append(0.0)
-
 plt.figure()
 
-plt.subplot(3,1,1)
+plt.subplot(2,1,1)
 plt.plot(x, 'o')
 plt.grid(True)
 plt.title("x")
 
-plt.subplot(3,1,2)
-plt.plot(x_odd, 'o')
-plt.grid(True)
-plt.title("x_odd")
-
-plt.subplot(3,1,3)
+plt.subplot(2,1,2)
 plt.plot(x_odd_full, 'o')
 plt.grid(True)
 plt.title("x_odd_full")
@@ -80,29 +75,10 @@ plt.tight_layout()
 
 c = redft10(x)
 
-# c_odd = redft00(x_odd)
-
 c_odd_full = dft(x_odd_full)
 
 
 #%%
-# plt.figure()
-# plt.plot(np.arange(2*N), c_odd_full[:2*N].real, 'o', label='first half')
-# plt.plot(c_odd, '*', label='c_odd')
-# plt.plot(1+np.arange(2*N-1), c_odd_full[4*N:2*N:-1].real, 'x', label='second half')
-# plt.grid(True)
-# plt.legend(loc='upper right')
-# plt.title("symmetry of dft")
-
-# plt.tight_layout()
-
-
-
-
-#%%
-
-
-
 
 plt.figure()
 
@@ -114,11 +90,9 @@ plt.legend(loc='upper right')
 
 plt.tight_layout()
 
-
-
 #%%
 
-np.random.seed(0)
+np.random.seed(5)
 x2 = np.random.rand(N+1)
 
 x2_evn = []
@@ -136,17 +110,12 @@ for xe in x2_evn[-2:0:-1]:
 
 plt.figure()
 
-plt.subplot(3,1,1)
+plt.subplot(2,1,1)
 plt.plot(x2, 'o')
 plt.grid(True)
 plt.title("x2")
 
-plt.subplot(3,1,2)
-plt.plot(x2_evn, 'o')
-plt.grid(True)
-plt.title("x2_evn")
-
-plt.subplot(3,1,3)
+plt.subplot(2,1,2)
 plt.plot(x2_evn_full, 'o')
 plt.grid(True)
 plt.title("x2_evn_full")
@@ -156,8 +125,6 @@ plt.tight_layout()
 #%%
 
 c2 = redft00(x2)
-
-#c2_evn = redft00(x2_evn)
 
 c2_evn_full = dft(x2_evn_full)
 
@@ -173,4 +140,49 @@ plt.legend(loc='upper right')
 plt.tight_layout()
 
 
+
+#%% try to combine into full real-even DFT
+
+
+fullArray = np.zeros([4*N])
+for i in range(2*N+1):
+    if i%2 == 0:
+        # even
+        fullArray[i] = x2_evn_full[i]
+        fullArray[-i] = x2_evn_full[-i]
+    else:
+        # odd
+        fullArray[i] = x_odd_full[i]
+        fullArray[-i] = x_odd_full[-i]
+
+#%% plot full input array
+
+plt.figure()
+plt.axvline(2*N, ls='--', c='k')
+plt.plot(np.arange(0,4*N), fullArray, "--", label='combined')
+plt.plot(np.arange(1,4*N+1,2),  x_odd_full[1::2], "o", label='odd')
+plt.plot(np.arange(0,4*N,  2), x2_evn_full[::2], "o", label='even')
+plt.legend(loc=(0.58, 0.1))
+plt.grid(True)
+
+#%% compute DFT of full array
+
+fullDFT = dft(fullArray)
+
+#%% plot DFT of full array and combined DFT parts
+
+plt.figure()
+plt.axvline(2*N, ls='--', c='k')
+plt.plot(fullDFT.real, 'o--')
+plt.grid(True)
+
+cNew  = c2[:-1].real + c.real
+cNewC = c2[-1].real
+cNew2 = c2[:-1].real - c.real
+
+plt.plot(np.arange(N), cNew, 'x', label='even + odd')
+plt.plot(N, cNewC, 'x', label='even + odd')
+plt.plot(np.arange(N+1,2*N+1), cNew2[::-1], 'x', label='even + odd')
+
+plt.legend()
 
