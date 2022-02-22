@@ -171,18 +171,38 @@ fullDFT = dft(fullArray)
 
 #%% plot DFT of full array and combined DFT parts
 
-plt.figure()
-plt.axvline(2*N, ls='--', c='k')
-plt.plot(fullDFT.real, 'o--')
-plt.grid(True)
 
 cNew  = c2[:-1].real + c.real
 cNewC = c2[-1].real
 cNew2 = c2[:-1].real - c.real
 
+plt.figure()
+plt.axvline(2*N, ls='--', c='k')
+plt.plot(fullDFT.real, 'o--')
 plt.plot(np.arange(N), cNew, 'x', label='even + odd')
-plt.plot(N, cNewC, 'x', label='even + odd')
-plt.plot(np.arange(N+1,2*N+1), cNew2[::-1], 'x', label='even + odd')
+plt.plot(N, cNewC, 'x', label='even')
+plt.plot(np.arange(N+1,2*N+1), cNew2[::-1], 'x', label='even - odd')
+plt.grid(True)
 
 plt.legend()
 
+#%% compute contributions from even and odd harmonics
+
+cEven = np.zeros([2*N+1])
+cOdd  = np.zeros([2*N+1])
+
+cEven[:N+1] = c2.real
+cEven[N:]   = c2[::-1].real
+
+cOdd[:N]   =  c.real
+cOdd[N+1:] = -c[::-1].real
+
+plt.figure()
+plt.axvline(2*N, ls='--', c='k')
+plt.plot(fullDFT.real, 'o--')
+plt.plot(np.arange(2*N+1), cEven, 'x', label='even')
+plt.plot(np.arange(2*N+1), cOdd, 'x', label='odd')
+plt.plot(np.arange(2*N+1), cEven+cOdd, 'x', label='comb')
+plt.grid(True)
+
+plt.legend()
