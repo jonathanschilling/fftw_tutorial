@@ -38,3 +38,5 @@ lcfs_Z.dat
 test_util
 test_util.dat
 
+# Jupyter Notebook checkpoints
+*.ipynb_checkpoints
